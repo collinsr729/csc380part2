@@ -1,3 +1,4 @@
+package csc380;
 
 
 
@@ -41,14 +42,13 @@ public class Map {
 		return res;
 	}
 	
-	public void DistanceCall(String address)
+	public int DistanceCall(String address)
 	{
 		int distanceAsNumber;
 
 		String address1, address2, address3;
 		
 		address1 = address;
-		address2 = null;
 
 		String distanceAsString;
 		
@@ -76,7 +76,7 @@ public class Map {
 	    }   
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		System.out.println(gson.toJson(trix.rows));			//rows is an array: ex. rows[0] = output from first origin
+//		System.out.println(gson.toJson(trix.rows));			//rows is an array: ex. rows[0] = output from first origin
 		
 		distanceAsString = gson.toJson(trix);
 		
@@ -84,8 +84,8 @@ public class Map {
 		
 		distanceAsNumber = Integer.parseInt(distanceAsString);
 		
-		System.out.println(distanceAsNumber - 22);
-		
+//		System.out.println(distanceAsNumber - 22);
+		return distanceAsNumber;
 	}
 	
 	public String findClosest(String add, ArrayList<String> a) {
