@@ -5,6 +5,7 @@ package csc380;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
@@ -21,89 +22,58 @@ public class Map {
 
 	}
 	
-	public String calculateRoute(String home, String addresses[]) {
-		ArrayList<String> arr = new ArrayList<String>();
-		for(int i = 0; i< addresses.length; i++) {
-			if(addresses[i]==null)
-				break;
-			arr.add(addresses[i]);
-		}
-//		home = findClosest(home, arr);
-		String res = "";
-//		res += home+"\n";
-		while (!arr.isEmpty()) {
-			home = findClosest(home, arr);
-			arr.remove(home);
-			res += home+"\n";
-		}
-		// Accesses a map API to get live updates on a route/ or find closest
-		// address and go in order from the next closest house to that one
-		
-		return res;
-	}
-	
-	public int DistanceCall(String address)
+	public void calculateRoute(String addresses[]) 
 	{
-		int distanceAsNumber;
-
-		String address1, address2, address3;
+		ArrayList<String> listOfAddresses = new ArrayList<String>();
+		ArrayList<Integer> distancesFromHomeInMeters = new ArrayList<Integer>();
+		ArrayList<Double> distancesFromHomeInMiles = new ArrayList<Double>();
 		
-		address1 = address;
-
-		String distanceAsString;
-		
-		final String GEO_API_KEY = "AIzaSyCUcSoFBlKCqqxApVpprxj9CK6L7RrBhTU";
-		GeoApiContext context = new GeoApiContext.Builder()
-			    .apiKey(GEO_API_KEY)
-			    .build();
-		DistanceMatrix trix = null;
-		
-		try
+		for(int i = 0; i < addresses.length; i++)
 		{
-			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
-	         trix = req.origins(HOME_BASE)
-	                .destinations(address1,"7249 Dryer Rd Victor")
-	                .mode(TravelMode.DRIVING)
-	                //.avoid(RouteRestriction.TOLLS)
-	                .language("en-EN")
-	                .await();
+			if(addresses[i] == null)
+				break;
+			listOfAddresses.add(addresses[i]);
 		}
+
+		distancesFromHomeInMeters = getDistancesFromHome(listOfAddresses);
 		
-		catch(ApiException e){
-	        
-	    } catch(Exception e){
-	        System.out.println(e.getMessage());
-	    }   
+		for(int i = 0; i < distancesFromHomeInMeters.size(); i++)	
+			distancesFromHomeInMiles.add(convertMetersToMiles(distancesFromHomeInMeters.get(i)));
 		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//		System.out.println(gson.toJson(trix.rows));			//rows is an array: ex. rows[0] = output from first origin
+		System.out.println(distancesFromHomeInMiles.get(0));
+		System.out.println(distancesFromHomeInMiles.get(1));
 		
-		distanceAsString = gson.toJson(trix);
+		int index = 0 ;
 		
-		distanceAsString = getDistance(distanceAsString);
-		
-		distanceAsNumber = Integer.parseInt(distanceAsString);
-		
-//		System.out.println(distanceAsNumber - 22);
-		return distanceAsNumber;
+		while(checkIfInBounds(distancesFromHomeInMiles.get(index)))
+		{
+			index++;
+			System.out.println("In bounds");
+		}
+			
 	}
 	
-	public String findClosest(String add, ArrayList<String> a) {
+	public ArrayList getDistancesFromHome(ArrayList<String> listOfAddresses)
+	{
+		final String GEO_API_KEY = "AIzaSyCUcSoFBlKCqqxApVpprxj9CK6L7RrBhTU";
+		final String HOME = "7060 NY104";
+		
 		ArrayList<Integer> results = new ArrayList<Integer>();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			final String GEO_API_KEY = "AIzaSyCUcSoFBlKCqqxApVpprxj9CK6L7RrBhTU";
-			GeoApiContext context = new GeoApiContext.Builder()
-				    .apiKey(GEO_API_KEY)
-				    .build();
-			DistanceMatrix trix = null;
-		for(int i = 0; i<a.size(); i++) {
+		GeoApiContext context = new GeoApiContext.Builder()
+				.apiKey(GEO_API_KEY).build();
+		DistanceMatrix trix = null;
+		
+		
+		for(int i = 0; i < listOfAddresses.size(); i++) 
+		{
 			try
 			{
 				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
-		         trix = req.origins(add)
-		                .destinations(a.get(i))
+		         trix = req.origins(HOME)
+		                .destinations(listOfAddresses.get(i))
 		                .mode(TravelMode.DRIVING)
-		                //.avoid(RouteRestriction.TOLLS)
+		                .avoid(RouteRestriction.TOLLS)
 		                .language("en-EN")
 		                .await();
 			}
@@ -117,21 +87,41 @@ public class Map {
 			{
 		        System.out.println(e.getMessage());
 		    }   
-			results.add(Integer.parseInt((getDistance(gson.toJson(trix.rows)))));
+			
+			System.out.println(gson.toJson(trix.rows));
+			results.add(Integer.parseInt((getDistanceFromJSON(gson.toJson(trix.rows)))));
 		}
-		int result = 0;
-		for(int i = 0; i < results.size();i++) {
-			if(results.get(result) > results.get(i)) {
-				result = i;
-			}
+		
+		return results;
+	}
+	
+	private boolean checkIfInBounds(Double distance)
+	{
+		if(distance <= 2)
+			return true;
+		
+		else {
+			System.out.println("Not in bounds!");
+			return false;
 		}
-		return a.get(result);
+	}
+	
+	private Double convertMetersToMiles(Integer distance)
+	{
+		double distanceInMiles;
+		
+		distanceInMiles = distance * 0.000621371;
+		return distanceInMiles;
 	}
 
-	private String getDistance(String o) {   //Finds inMeters value from output
-		// TODO Auto-generated method stub
+	private String getDistanceFromJSON(String o)
+	{   //Finds inMeters value from output
 		o = o.substring(o.indexOf("\"inMeters\"")+12);
-		return o.substring(0, o.indexOf(","));
+		int index = o.indexOf(",");
+		o = o.substring(0, index);
+		
+		return o;
+		
 	}
 
 }

@@ -53,12 +53,9 @@ public class Main {
 		Order order2 = new Order(new Item("Steak", 20));
 		order2.setAddress("9060 NY104");
 		
-		Load load2 = new Load(order1, order2);
-		map.DistanceCall(order2.getAddress());
-		String addressOrder = map.calculateRoute("7060 ny104 oswego", load.getAddresses());
-		
-		System.out.println(addressOrder);
-		
+		Load load2 = new Load(order1, o3);
+		//map.DistanceCall(order2.getAddress());
+		map.calculateRoute(load2.getAddresses());
 
 	}
 
