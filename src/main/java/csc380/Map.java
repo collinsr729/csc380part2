@@ -14,11 +14,11 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 
 public class Map {
-
-	public String[] addresses;
-	final String HOME_BASE = "7060 NY104";
 	
-	public Map() {
+	private final String HOME_BASE = "7060 NY104";
+	
+	public Map() 
+	{
 
 	}
 	
@@ -40,16 +40,19 @@ public class Map {
 		for(int i = 0; i < distancesFromHomeInMeters.size(); i++)	
 			distancesFromHomeInMiles.add(convertMetersToMiles(distancesFromHomeInMeters.get(i)));
 		
+		distancesFromHomeInMiles = orderClosestToHome(distancesFromHomeInMiles);
+		
 		System.out.println(distancesFromHomeInMiles.get(0));
 		System.out.println(distancesFromHomeInMiles.get(1));
+		System.out.println(distancesFromHomeInMiles.get(2));
 		
-		int index = 0 ;
-		
-		while(checkIfInBounds(distancesFromHomeInMiles.get(index)))
+		/*while(checkIfInBounds(distancesFromHomeInMiles.get(index)))
 		{
 			index++;
 			System.out.println("In bounds");
-		}
+		}*/
+		
+		
 			
 	}
 	
@@ -122,6 +125,55 @@ public class Map {
 		
 		return o;
 		
+	}
+	
+	private ArrayList orderClosestToHome(ArrayList<Double> distancesFromHomeInMiles)
+	{
+		double temporary;
+		
+		if(distancesFromHomeInMiles.size() == 1)
+			return distancesFromHomeInMiles;
+		
+		else if(distancesFromHomeInMiles.size() == 2)
+		{
+			if(distancesFromHomeInMiles.get(0) > distancesFromHomeInMiles.get(1))
+			{
+				temporary = distancesFromHomeInMiles.get(0);
+				distancesFromHomeInMiles.set(0, distancesFromHomeInMiles.get(1));
+				distancesFromHomeInMiles.set(1, temporary);
+			}
+			
+			return distancesFromHomeInMiles;
+		}
+		
+		else if(distancesFromHomeInMiles.size() == 3)
+		{	
+			if(distancesFromHomeInMiles.get(0) > distancesFromHomeInMiles.get(1))
+			{
+				temporary = distancesFromHomeInMiles.get(0);
+				distancesFromHomeInMiles.set(0, distancesFromHomeInMiles.get(1));
+				distancesFromHomeInMiles.set(1, temporary);
+			}
+			
+			if(distancesFromHomeInMiles.get(1) > distancesFromHomeInMiles.get(2))
+			{
+				temporary = distancesFromHomeInMiles.get(1);
+				distancesFromHomeInMiles.set(1, distancesFromHomeInMiles.get(2));
+				distancesFromHomeInMiles.set(2, temporary);
+			}
+			
+			if(distancesFromHomeInMiles.get(0) > distancesFromHomeInMiles.get(1))
+			{
+				temporary = distancesFromHomeInMiles.get(0);
+				distancesFromHomeInMiles.set(0, distancesFromHomeInMiles.get(1));
+				distancesFromHomeInMiles.set(1, temporary);
+			}
+			
+			return distancesFromHomeInMiles;
+		}
+		
+		else
+			return distancesFromHomeInMiles;
 	}
 
 }

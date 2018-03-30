@@ -47,13 +47,13 @@ public class Main {
 		
 		o2.setAddress("7249 Dryer Rd Victor");
 		Order o3 = new Order (new Item("Ice Cream", 5));
-		o3.setAddress("7093 ny104 oswego");
+		o3.setAddress("302 Second Street, Solvay NY");
 		Load load = new Load(order1,o2,o3);
 		
 		Order order2 = new Order(new Item("Steak", 20));
 		order2.setAddress("9060 NY104");
 		
-		Load load2 = new Load(order1, o3);
+		Load load2 = new Load(o3, order1, o2);
 		//map.DistanceCall(order2.getAddress());
 		map.calculateRoute(load2.getAddresses());
 
