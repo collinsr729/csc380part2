@@ -6,10 +6,22 @@ public class Item {
 	String foodName;
 	int prepTime;
 	
-	public Item(String foodName, int prepTime)
+	public Item(String foodName)
 	{
 		this.foodName = foodName;
-		this.prepTime = prepTime;
+		setPrepTime();
+	}
+	
+	private void setPrepTime()
+	{
+		if(foodName.toLowerCase() == "steak")
+			prepTime = 20;
+		
+		else if(foodName.toLowerCase() == "burger")
+			prepTime = 15;
+		
+		else if(foodName.toLowerCase() == "fries")
+			prepTime = 5;
 	}
 	
 	public String getFoodName()

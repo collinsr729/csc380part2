@@ -1,39 +1,41 @@
 package csc380;
 
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Order {
 	
-	private Item [] items;
+	private ArrayList<Item> items2;
 	private String name, address, telephoneNumber;
 	
 
-	public Order(Item itemA, Item itemB, Item itemC)
+	public Order()
 	{
-		items = new Item[3];
-		items[0] = itemA;
-		items[1] = itemB;
-		items[2] = itemC;
-
-	}
-	public Order(Item itemA, Item itemB)
-	{
-		items = new Item[2];
-		items[0] = itemA;
-		items[1] = itemB;
-	}
-	public Order(Item itemA)
-	{
-		items = new Item[1];
-		items[0] = itemA;
+		items2 = new ArrayList<Item>();
 	}
 	
-	public Item getItem(int whichItem)
+	public void addItem(Item newItem)
 	{
-		Item returningItem;
+		items2.add(newItem);
+	}
+	
+	public Item getItem2(int index)
+	{
+		return items2.get(index);
+	}
+	
+	public int getTotalPrepTime()
+	{
+		int greatest;
+		ArrayList<Integer> prepTimes = new ArrayList<Integer>();
 		
-		returningItem = items[whichItem];
+		for(int i = 1; i < items2.size(); i++)
+		{
+			prepTimes.add(i, items2.get(i).getPrepTime());
+			System.out.println("Success");
+		}
 		
-		return returningItem;
+		return Collections.max(prepTimes);
 	}
 	
 	public void setName(String customerName)
