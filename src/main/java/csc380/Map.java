@@ -91,7 +91,6 @@ public class Map {
 		        System.out.println(e.getMessage());
 		    }   
 			
-			System.out.println(gson.toJson(trix.rows));
 			results.add(Integer.parseInt((getDistanceFromJSON(gson.toJson(trix.rows)))));
 		}
 		

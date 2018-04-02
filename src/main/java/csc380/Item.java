@@ -22,6 +22,8 @@ public class Item {
 		
 		else if(foodName.toLowerCase() == "fries")
 			prepTime = 5;
+		else
+			prepTime = 5;
 	}
 	
 	public String getFoodName()

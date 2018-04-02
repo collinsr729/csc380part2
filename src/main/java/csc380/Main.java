@@ -3,6 +3,7 @@ package csc380;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,11 +24,11 @@ import com.google.maps.model.TravelMode;
 import org.json.*;
 
 public class Main {
-	
+
 	public static void main(String[] args) {
 		
 		
-		JOptionPane.showMessageDialog(null, "Welcome to the delivery service program.","Title",JOptionPane.WARNING_MESSAGE);
+		/*JOptionPane.showMessageDialog(null, "Welcome to the delivery service program.","Title",JOptionPane.WARNING_MESSAGE);
 		String a[] = new String[3];
 		a[0] = JOptionPane.showInputDialog(null,"Enter an address:");
 		int al = JOptionPane.showConfirmDialog(null, "Do you really live here", "Are you sure?", JOptionPane.OK_CANCEL_OPTION);
@@ -35,29 +36,62 @@ public class Main {
 			System.out.println("Ok, cool");
 		else
 			System.out.println("Why lie to me?");
-		a[2] = null;
+		a[2] = null;*/
 		
 		Scanner scan = new Scanner(System.in);
-		String food;
-		String address;
-		String input;
+		int startTime, timeOfOrderPlaced;
+		String input, food, address;
 		
 		input = scan.nextLine();
 		
-		while(!(input == "q"))
+		while(input.compareTo("q") != 0)
 		{
-			System.out.print("Food: ");
-			food = scan.nextLine();
+			Load load = new Load();
+			Load nextLoad = new Load();
 			
-			System.out.print("\nAddress: ");
-			address = scan.nextLine();
+			load = nextLoad;
+			
+			Calendar now = Calendar.getInstance();
+			startTime = now.get(Calendar.SECOND);
 
-			Order order1 = new Order();
 			
-			order1.addItem(new Item(food));
-			order1.setAddress(address);
+			while(input.compareTo("next") == 0)
+			{
+				Calendar now2 = Calendar.getInstance();
+				timeOfOrderPlaced = now2.get(Calendar.SECOND);
+				//System.out.println(timeOfOrderPlaced);
+				
+				System.out.print("Food: ");
+				food = scan.nextLine();
+				System.out.print("\nAddress: ");
+				address = scan.nextLine();
+				
+				Order newOrder = new Order();
+				newOrder.addItem(new Item(food));
+				newOrder.setAddress(address);
+				
+				if(timeOfOrderPlaced - startTime <= 35)
+				{
+					System.out.println(timeOfOrderPlaced - startTime);
+					load.addOrder(newOrder);
+				}
+				
+				else if(timeOfOrderPlaced - startTime > 35)
+				{	
+					nextLoad.addOrder(newOrder);
+					System.out.println("Added to next load. Time elapsed since start " 
+												+ (timeOfOrderPlaced - startTime));
+				}
+				
+				if(load.getSize() == 3)
+					input = "next load";
+				
+				else
+					input = scan.nextLine();
+			}
 			
-			Load load = new Load(order1);
+			System.out.println("Load complete");
+			
 			Map map = new Map();
 			
 			map.calculateRoute(load.getAddresses());
