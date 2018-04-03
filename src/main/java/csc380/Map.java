@@ -1,7 +1,5 @@
 package csc380;
 
-
-
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -14,166 +12,77 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 
 public class Map {
-	
-	private final String HOME_BASE = "7060 NY104";
-	
-	public Map() 
-	{
+	Variables vars = new Variables();
 
-	}
-	
-	public void calculateRoute(String addresses[]) 
-	{
-		ArrayList<String> listOfAddresses = new ArrayList<String>();
-		ArrayList<Integer> distancesFromHomeInMeters = new ArrayList<Integer>();
-		ArrayList<Double> distancesFromHomeInMiles = new ArrayList<Double>();
-		
-		for(int i = 0; i < addresses.length; i++)
-		{
-			if(addresses[i] == null)
-				break;
-			listOfAddresses.add(addresses[i]);
+	public ArrayList<String> calculateRoute(ArrayList<String> addresses) {
+
+		ArrayList<String> res = new ArrayList<String>();
+
+		while (!addresses.isEmpty()) {
+			String closest = findClosest(addresses);
+			addresses.remove(closest);
+			res.add(closest);
 		}
-
-		distancesFromHomeInMeters = getDistancesFromHome(listOfAddresses);
-		
-		for(int i = 0; i < distancesFromHomeInMeters.size(); i++)	
-			distancesFromHomeInMiles.add(convertMetersToMiles(distancesFromHomeInMeters.get(i)));
-		
-		distancesFromHomeInMiles = orderClosestToHome(distancesFromHomeInMiles);
-		
-		System.out.println(distancesFromHomeInMiles.get(0));
-		System.out.println(distancesFromHomeInMiles.get(1));
-		System.out.println(distancesFromHomeInMiles.get(2));
-		
-		/*while(checkIfInBounds(distancesFromHomeInMiles.get(index)))
-		{
-			index++;
-			System.out.println("In bounds");
-		}*/
-		
-		
-			
+		return res;
 	}
-	
-	public ArrayList getDistancesFromHome(ArrayList<String> listOfAddresses)
-	{
-		final String GEO_API_KEY = "AIzaSyCUcSoFBlKCqqxApVpprxj9CK6L7RrBhTU";
-		final String HOME = "7060 NY104";
-		
-		ArrayList<Integer> results = new ArrayList<Integer>();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		GeoApiContext context = new GeoApiContext.Builder()
-				.apiKey(GEO_API_KEY).build();
+
+	public long DistanceCall(String address) {
+
+		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
-		
-		
-		for(int i = 0; i < listOfAddresses.size(); i++) 
-		{
-			try
-			{
-				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context); 
-		         trix = req.origins(HOME)
-		                .destinations(listOfAddresses.get(i))
-		                .mode(TravelMode.DRIVING)
-		                .avoid(RouteRestriction.TOLLS)
-		                .language("en-EN")
-		                .await();
-			}
-			
-			catch(ApiException e)
-			{
-				System.out.println("There is an issue with the API request.");
-			} 
-			
-			catch(Exception e)
-			{
-		        System.out.println(e.getMessage());
-		    }   
-			
-			System.out.println(gson.toJson(trix.rows));
-			results.add(Integer.parseInt((getDistanceFromJSON(gson.toJson(trix.rows)))));
+
+		try {
+			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+			trix = req.origins(vars.HOME).destinations(address).mode(TravelMode.DRIVING).language("en-EN").await();
+		} catch (ApiException e) {
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 		}
-		
-		return results;
-	}
-	
-	private boolean checkIfInBounds(Double distance)
-	{
-		if(distance <= 2)
-			return true;
-		
-		else {
-			System.out.println("Not in bounds!");
-			return false;
-		}
-	}
-	
-	private Double convertMetersToMiles(Integer distance)
-	{
-		double distanceInMiles;
-		
-		distanceInMiles = distance * 0.000621371;
-		return distanceInMiles;
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String distance = gson.toJson(trix);
+		System.out.println(distance);
+		return getDistanceFromJSON(distance);
+
 	}
 
-	private String getDistanceFromJSON(String o)
-	{   //Finds inMeters value from output
-		o = o.substring(o.indexOf("\"inMeters\"")+12);
-		int index = o.indexOf(",");
-		o = o.substring(0, index);
+	public String findClosest(ArrayList<String> adds) {
+
+		ArrayList<Long> results = new ArrayList<Long>();
 		
-		return o;
-		
-	}
-	
-	private ArrayList orderClosestToHome(ArrayList<Double> distancesFromHomeInMiles)
-	{
-		double temporary;
-		
-		if(distancesFromHomeInMiles.size() == 1)
-			return distancesFromHomeInMiles;
-		
-		else if(distancesFromHomeInMiles.size() == 2)
-		{
-			if(distancesFromHomeInMiles.get(0) > distancesFromHomeInMiles.get(1))
-			{
-				temporary = distancesFromHomeInMiles.get(0);
-				distancesFromHomeInMiles.set(0, distancesFromHomeInMiles.get(1));
-				distancesFromHomeInMiles.set(1, temporary);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
+		DistanceMatrix trix = null;
+		for (int i = 0; i < adds.size(); i++) {
+			try {
+				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+				trix = req.origins(vars.HOME).destinations(adds.get(i)).mode(TravelMode.DRIVING).language("en-EN")
+						.await();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
-			
-			return distancesFromHomeInMiles;
+
+			results.add(getDistanceFromJSON(gson.toJson(trix.rows)));
 		}
-		
-		else if(distancesFromHomeInMiles.size() == 3)
-		{	
-			if(distancesFromHomeInMiles.get(0) > distancesFromHomeInMiles.get(1))
-			{
-				temporary = distancesFromHomeInMiles.get(0);
-				distancesFromHomeInMiles.set(0, distancesFromHomeInMiles.get(1));
-				distancesFromHomeInMiles.set(1, temporary);
+
+		long result = results.get(0);
+		int i;
+		for (i = 1; i < results.size(); i++) {
+			if (result > results.get(i)) {
+				result = results.get(i);
 			}
-			
-			if(distancesFromHomeInMiles.get(1) > distancesFromHomeInMiles.get(2))
-			{
-				temporary = distancesFromHomeInMiles.get(1);
-				distancesFromHomeInMiles.set(1, distancesFromHomeInMiles.get(2));
-				distancesFromHomeInMiles.set(2, temporary);
-			}
-			
-			if(distancesFromHomeInMiles.get(0) > distancesFromHomeInMiles.get(1))
-			{
-				temporary = distancesFromHomeInMiles.get(0);
-				distancesFromHomeInMiles.set(0, distancesFromHomeInMiles.get(1));
-				distancesFromHomeInMiles.set(1, temporary);
-			}
-			
-			return distancesFromHomeInMiles;
 		}
-		
-		else
-			return distancesFromHomeInMiles;
+		return adds.get(i);
 	}
 
+	private long getDistanceFromJSON(String o) { // Finds inMeters value from output
+		o = o.substring(o.indexOf("\"inMeters\"") + 12);
+		return Long.parseLong(o.substring(0, o.indexOf(",")));
+
+	}
+
+	public Double convertMetersToMiles(long distance) {
+		return distance * 0.00062137119;
+	}
 }
