@@ -81,6 +81,7 @@ public class Main {
 					nextLoad.addOrder(newOrder);
 					System.out.println("Added to next load. Time elapsed since start " 
 												+ (timeOfOrderPlaced - startTime));
+					input = "next load";
 				}
 				
 				if(load.getSize() == 3)

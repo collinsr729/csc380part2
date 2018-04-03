@@ -22,10 +22,7 @@ public class Load {
 		addresses = new String[getSize()];
 		
 		for(int i = 0; i < orders.size(); i++)
-		{
-			System.out.println("address retreived");
 			addresses[i] = orders.get(i).getAddress();
-		}
 		
 		return addresses;
 	}
