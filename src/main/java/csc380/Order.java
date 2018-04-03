@@ -5,23 +5,23 @@ import java.util.Collections;
 
 public class Order {
 	
-	private ArrayList<Item> items2;
+	private ArrayList<Item> items;
 	private String name, address, telephoneNumber;
 	
 
 	public Order()
 	{
-		items2 = new ArrayList<Item>();
+		items = new ArrayList<Item>();
 	}
 	
 	public void addItem(Item newItem)
 	{
-		items2.add(newItem);
+		items.add(newItem);
 	}
 	
 	public Item getItem2(int index)
 	{
-		return items2.get(index);
+		return items.get(index);
 	}
 	
 	public int getTotalPrepTime()
@@ -29,9 +29,9 @@ public class Order {
 		int greatest;
 		ArrayList<Integer> prepTimes = new ArrayList<Integer>();
 		
-		for(int i = 1; i < items2.size(); i++)
+		for(int i = 1; i < items.size(); i++)
 		{
-			prepTimes.add(i, items2.get(i).getPrepTime());
+			prepTimes.add(i, items.get(i).getPrepTime());
 			System.out.println("Success");
 		}
 		

@@ -14,14 +14,16 @@ public class Item {
 	
 	private void setPrepTime()
 	{
-		if(foodName.toLowerCase() == "steak")
+		if(foodName.toLowerCase().compareTo("steak") == 0)
 			prepTime = 20;
 		
-		else if(foodName.toLowerCase() == "burger")
+		else if(foodName.toLowerCase().compareTo("burger") == 0)
 			prepTime = 15;
 		
-		else if(foodName.toLowerCase() == "fries")
+		else if(foodName.toLowerCase().compareTo("fries") == 0)
 			prepTime = 5;
+		else
+			prepTime = 25;
 	}
 	
 	public String getFoodName()

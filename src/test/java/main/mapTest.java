@@ -2,20 +2,36 @@ package main;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-
 import org.junit.Test;
 import csc380.Map;
 
 public class mapTest {
 
 	@Test
-	public void test() {
-		Map m = new Map();
-		ArrayList<String> addresses = new ArrayList<String>();
-		addresses.add("7093 ny104");
-		addresses.add("20 rudolph rd oswego");
-		System.out.println(m.calculateRoute(addresses));
+	public void testConvertMetersToMiles() 
+	{
+		Map map = new Map();
+		double returnedResult, expectedResult;
+		
+		returnedResult = map.convertMetersToMiles(1609);
+		expectedResult = 0.999786;
+		
+		assertEquals(expectedResult, returnedResult);
+	}
+	
+	@Test
+	public void testCheckIfInBoundsTrue()
+	{
+		Map map = new Map();
+		
+		assertTrue(map.checkIfInBounds(1609)); //1 mile in meters
 	}
 
+	@Test
+	public void testCheckIfInBoundsFalse()
+	{
+		Map map = new Map();
+		
+		assertFalse(map.checkIfInBounds(5*1610)); //5+ miles
+	}
 }

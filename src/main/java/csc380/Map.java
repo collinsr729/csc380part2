@@ -1,5 +1,6 @@
 package csc380;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -84,5 +85,9 @@ public class Map {
 
 	public Double convertMetersToMiles(long distance) {
 		return distance * 0.00062137119;
+	}
+
+	public boolean checkIfInBounds(long d) {
+		return vars.DELIVERY_DISTANCE >= convertMetersToMiles(d);
 	}
 }

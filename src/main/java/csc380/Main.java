@@ -1,33 +1,18 @@
 package csc380;
 
 
-import java.awt.JobAttributes;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.maps.*;
-import com.google.maps.DirectionsApi.RouteRestriction;
-import com.google.maps.errors.ApiException;
-import com.google.maps.model.Distance;
-import com.google.maps.model.DistanceMatrix;
-import com.google.maps.model.DistanceMatrixElement; 
-import com.google.maps.model.DistanceMatrixRow;
-import com.google.maps.model.GeocodingResult;
-import com.google.maps.model.TravelMode;
-
-import org.json.*;
-
 public class Main {
+
+	
 	public static void main(String[] args) {
 
 		Variables vars = new Variables();
 		
+
 		JOptionPane.showMessageDialog(null, "Welcome to the delivery service program.","Title",JOptionPane.WARNING_MESSAGE);
 		ArrayList<String> adds = new ArrayList<String>();
 		Map map = new Map();
@@ -35,7 +20,7 @@ public class Main {
 		int index = 0;
 		String add = JOptionPane.showInputDialog(null,"Enter an address:");
 		while (!add.equals("")){
-			if(vars.DELIVERY_DISTANCE >= map.DistanceCall(add)) {
+			if(map.checkIfInBounds(map.DistanceCall(add))) {
 				adds.add(add);
 				index++;
 			}
@@ -47,8 +32,67 @@ public class Main {
 		
 		ArrayList<String> addSorted = map.calculateRoute(adds);
 		
-		JOptionPane.showConfirmDialog(null, addSorted.get(0)+"\n"+addSorted.get(1)+"\n"+addSorted.get(2), "Sorted", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
-		
+//		Scanner scan = new Scanner(System.in);
+//		int startTime, timeOfOrderPlaced;
+//		String input, food, address;
+//		
+//		JOptionPane.showConfirmDialog(null, addSorted.get(0)+"\n"+addSorted.get(1)+"\n"+addSorted.get(2), "Sorted", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+//
+//		while(input.compareTo("q") != 0)
+//		{
+//			Load load = new Load();
+//			Load nextLoad = new Load();
+//			
+//			load = nextLoad;
+//			
+//			Calendar now = Calendar.getInstance();
+//			startTime = now.get(Calendar.MINUTE);
+//
+//			
+//			while(input.compareTo("next") == 0)
+//			{
+//				Calendar now2 = Calendar.getInstance();
+//				timeOfOrderPlaced = now2.get(Calendar.MINUTE);
+//				//System.out.println(timeOfOrderPlaced);
+//				
+//				System.out.print("Food: ");
+//				food = scan.nextLine();
+//				System.out.print("\nAddress: ");
+//				address = scan.nextLine();
+//				
+//				Order newOrder = new Order();
+//				newOrder.addItem(new Item(food));
+//				newOrder.setAddress(address);
+//				
+//				if(timeOfOrderPlaced - startTime <= 1)
+//				{
+//					//System.out.println(timeOfOrderPlaced - startTime);
+//					load.addOrder(newOrder);
+//				}
+//				
+//				else if(timeOfOrderPlaced - startTime > 1)
+//				{	
+//					nextLoad.addOrder(newOrder);
+//					System.out.println("Added to next load. Time elapsed since start " 
+//												+ (timeOfOrderPlaced - startTime));
+//					input = "next load";
+//				}
+//				
+//				if(load.getSize() == 3)
+//					input = "next load";
+//				
+//				else
+//					input = scan.nextLine();
+//			}
+//			
+//			System.out.println("Load complete");
+//			
+//			Map map = new Map();
+//			
+//			map.calculateRoute(load.getAddresses());
+//			
+//			input = scan.nextLine();
+//		}
 
 	}
 
