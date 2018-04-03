@@ -31,12 +31,15 @@ public class Map {
 
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
-
+		System.out.println(address);
 		try {
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-			trix = req.origins(vars.HOME).destinations(address).mode(TravelMode.DRIVING).language("en-EN").await();
+			trix = req.origins(vars.HOME)
+					.destinations(address)
+					.mode(TravelMode.DRIVING)
+					.language("en-EN").await();
 		} catch (ApiException e) {
-
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -58,8 +61,10 @@ public class Map {
 		for (int i = 0; i < adds.size(); i++) {
 			try {
 				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-				trix = req.origins(vars.HOME).destinations(adds.get(i)).mode(TravelMode.DRIVING).language("en-EN")
-						.await();
+				trix = req.origins(vars.HOME)
+						.destinations(adds.get(i))
+						.mode(TravelMode.DRIVING)
+						.language("en-EN").await();
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -67,14 +72,13 @@ public class Map {
 			results.add(getDistanceFromJSON(gson.toJson(trix.rows)));
 		}
 
-		long result = results.get(0);
-		int i;
-		for (i = 1; i < results.size(); i++) {
-			if (result > results.get(i)) {
-				result = results.get(i);
+		int result = 0;
+		for (int i = 0; i < results.size(); i++) {
+			if (results.get(result) < results.get(i)) {
+				result = i;
 			}
 		}
-		return adds.get(i);
+		return adds.get(result);
 	}
 
 	private long getDistanceFromJSON(String o) { // Finds inMeters value from output

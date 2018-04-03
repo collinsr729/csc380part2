@@ -18,16 +18,17 @@ public class Main {
 		Map map = new Map();
 		//GET MULTIPLE ADDRESSES
 		int index = 0;
-		String add = JOptionPane.showInputDialog(null,"Enter an address:");
-		while (!add.equals("")){
-			if(map.checkIfInBounds(map.DistanceCall(add))) {
-				adds.add(add);
+		String newAddress = JOptionPane.showInputDialog(null,"Enter an address:");
+		while (!newAddress.equals("") | newAddress != null){
+			System.out.println(newAddress);
+			if(map.checkIfInBounds(map.DistanceCall(newAddress))) {
+				adds.add(newAddress);
 				index++;
 			}
 			else
-				JOptionPane.showMessageDialog(null, String.format("Sorry address is too far by %.2fmi",map.convertMetersToMiles(map.DistanceCall(add))),
+				JOptionPane.showMessageDialog(null, String.format("Sorry address is too far by %.2fmi",map.convertMetersToMiles(map.DistanceCall(newAddress))),
 						"Error", JOptionPane.ERROR_MESSAGE);
-			add = JOptionPane.showInputDialog(null,"Enter an address:");
+			newAddress = JOptionPane.showInputDialog(null,"Enter an address:");
 		}
 		
 		ArrayList<String> addSorted = map.calculateRoute(adds);
