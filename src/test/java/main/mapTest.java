@@ -7,12 +7,30 @@ import csc380.Map;
 public class mapTest {
 
 	@Test
-	public void test() {
-	/*	Map m = new Map();
-		String[] addresses = new String[2];
-		addresses[0] = "7093 ny104";
-		addresses[1] = "20 rudolph rd oswego";
-		System.out.println(m.calculateRoute("7060 ny104", addresses));*/
+	public void testConvertMetersToMiles() 
+	{
+		Map map = new Map();
+		double returnedResult, expectedResult;
+		
+		returnedResult = map.convertMetersToMiles(1609);
+		expectedResult = 0.999786;
+		
+		assertEquals(expectedResult, returnedResult);
+	}
+	
+	@Test
+	public void testCheckIfInBoundsTrue()
+	{
+		Map map = new Map();
+		
+		assertTrue(map.checkIfInBounds(1.0));
 	}
 
+	@Test
+	public void testCheckIfInBoundsFalse()
+	{
+		Map map = new Map();
+		
+		assertFalse(map.checkIfInBounds(3.0));
+	}
 }

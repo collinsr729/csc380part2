@@ -52,13 +52,13 @@ public class Main {
 			load = nextLoad;
 			
 			Calendar now = Calendar.getInstance();
-			startTime = now.get(Calendar.SECOND);
+			startTime = now.get(Calendar.MINUTE);
 
 			
 			while(input.compareTo("next") == 0)
 			{
 				Calendar now2 = Calendar.getInstance();
-				timeOfOrderPlaced = now2.get(Calendar.SECOND);
+				timeOfOrderPlaced = now2.get(Calendar.MINUTE);
 				//System.out.println(timeOfOrderPlaced);
 				
 				System.out.print("Food: ");
@@ -70,13 +70,13 @@ public class Main {
 				newOrder.addItem(new Item(food));
 				newOrder.setAddress(address);
 				
-				if(timeOfOrderPlaced - startTime <= 35)
+				if(timeOfOrderPlaced - startTime <= 1)
 				{
-					System.out.println(timeOfOrderPlaced - startTime);
+					//System.out.println(timeOfOrderPlaced - startTime);
 					load.addOrder(newOrder);
 				}
 				
-				else if(timeOfOrderPlaced - startTime > 35)
+				else if(timeOfOrderPlaced - startTime > 1)
 				{	
 					nextLoad.addOrder(newOrder);
 					System.out.println("Added to next load. Time elapsed since start " 

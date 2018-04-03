@@ -2,6 +2,7 @@ package csc380;
 
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,6 +20,7 @@ public class Map {
 	
 	public Map() 
 	{
+
 
 	}
 	
@@ -46,14 +48,15 @@ public class Map {
 		System.out.println(distancesFromHomeInMiles.get(1));
 		System.out.println(distancesFromHomeInMiles.get(2));
 		
-		/*while(checkIfInBounds(distancesFromHomeInMiles.get(index)))
-		{
-			index++;
-			System.out.println("In bounds");
-		}*/
+		for(int i = 0; i < distancesFromHomeInMiles.size(); i++)
+			if(checkIfInBounds(distancesFromHomeInMiles.get(i)))
+			{
+				
+			}
 		
+			else
+				System.out.println("Order number \" \" is out of bounds. Please notify the customer. ");
 		
-			
 	}
 	
 	public ArrayList getDistancesFromHome(ArrayList<String> listOfAddresses)
@@ -97,23 +100,23 @@ public class Map {
 		return results;
 	}
 	
-	private boolean checkIfInBounds(Double distance)
+	public boolean checkIfInBounds(Double distance)
 	{
 		if(distance <= 2)
 			return true;
-		
-		else {
-			System.out.println("Not in bounds!");
+		else
 			return false;
-		}
 	}
 	
-	private Double convertMetersToMiles(Integer distance)
+	public Double convertMetersToMiles(Integer distance)
 	{
-		double distanceInMiles;
+		double distanceInMiles, roundedDistance;
+		DecimalFormat decFormat = new DecimalFormat("#.######");
 		
 		distanceInMiles = distance * 0.000621371;
-		return distanceInMiles;
+		roundedDistance = Double.valueOf(decFormat.format(distanceInMiles));
+		
+		return roundedDistance;
 	}
 
 	private String getDistanceFromJSON(String o)
