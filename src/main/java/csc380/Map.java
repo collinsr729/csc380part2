@@ -31,7 +31,7 @@ public class Map {
 
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
-		System.out.println(address);
+		System.out.println("DistanceCall: " + address);
 		try {
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
 			trix = req.origins(vars.HOME)

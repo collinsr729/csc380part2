@@ -22,6 +22,12 @@ public class Item {
 		
 		else if(foodName.toLowerCase().compareTo("fries") == 0)
 			prepTime = 5;
+		else if(foodName.equalsIgnoreCase("peppizza")) {
+			prepTime = 12;
+		}
+		else if(foodName.equalsIgnoreCase("cheesepizza")) {
+			prepTime = 10;
+		}
 		else
 			prepTime = 25;
 	}
