@@ -1,6 +1,7 @@
 package main;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 import csc380.Map;
 
@@ -23,7 +24,7 @@ public class mapTest {
 	{
 		Map map = new Map();
 		
-		assertTrue(map.checkIfInBounds(1.0));
+		assertTrue(map.checkIfInBounds(1609)); //1 mile in meters
 	}
 
 	@Test
@@ -31,6 +32,6 @@ public class mapTest {
 	{
 		Map map = new Map();
 		
-		assertFalse(map.checkIfInBounds(3.0));
+		assertFalse(map.checkIfInBounds(5*1610)); //5+ miles
 	}
 }
