@@ -16,27 +16,87 @@ public class Order {
 	private String name, address, telephoneNumber;
 	
 	public void fillOrder(){
-		JFrame.setDefaultLookAndFeelDecorated(true);
+		JFrame.setDefaultLookAndFeelDecorated(false);;
 		JFrame frame = new JFrame("Menu");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    frame.setLayout(new GridLayout(3, 2));
 	    JButton CheesePizza = new JButton("Cheese Pizza");
 	    CheesePizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
 	    		    addItem(new Item("cheesepizza"));
+	    		    System.out.println("Cheese");
 	    		  } 
 	    		} );
 	    JButton PepPizza = new JButton("Peperoni Pizza");
-	    CheesePizza.addActionListener(new ActionListener() { 
+	    PepPizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		    addItem(new Item("peppizza"));
+	    		    System.out.println("Pep");
+	    		  } 
+	    		} );
+	    JButton Steak = new JButton("Steak");
+	    Steak.addActionListener(new ActionListener() { 
+	    	  public void actionPerformed(ActionEvent e){ 
+	    		    addItem(new Item("steak"));
+	    		    System.out.println("steak");
+	    		  } 
+	    		} );
+	    JButton Burger = new JButton("Burger");
+	    Burger.addActionListener(new ActionListener() { 
+	    	  public void actionPerformed(ActionEvent e) { 
+	    		    addItem(new Item("burger"));
+	    		    System.out.println("burger");
+	    		  } 
+	    		} );
+	    JButton Fries = new JButton("Fries");
+	    Fries.addActionListener(new ActionListener() { 
+	    	  public void actionPerformed(ActionEvent e) { 
+	    		    addItem(new Item("fries"));
+	    		    System.out.println("fries");
+	    		  } 
+	    		} );
+	    JButton CBurger = new JButton("Cheese Burger");
+	    CBurger.addActionListener(new ActionListener() { 
+	    	  public void actionPerformed(ActionEvent e) { 
+	    		    addItem(new Item("cheeseburger"));
+	    		    System.out.println("cheeseburger");
+	    		  } 
+	    		} );
+	    
+	    JButton Checkout = new JButton("Checkout");
+	    Checkout.addActionListener(new ActionListener() { 
+	    	  public void actionPerformed(ActionEvent e) { 
+	    		    checkout();
 	    		  } 
 	    		} );
 	    frame.add(CheesePizza);
 	    frame.add(PepPizza);
+	    frame.add(CBurger);
+	    frame.add(Burger);
+	    frame.add(Fries);
+	    frame.add(Steak);
+	    frame.add(Checkout);
 		frame.setVisible(true);
 		frame.setLocation(100, 100);
 		frame.setBounds(100, 100, 500, 500);
+		frame.requestFocus();
+		while(!getCheckout()) {
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		frame.dispose();
+	}
+	
+	boolean check = false;
+	private boolean getCheckout() {
+		return check;
+	}
+	private void checkout() {
+		check  = true;
 	}
 
 	public Order()
@@ -45,7 +105,8 @@ public class Order {
 	}
 	public Order(String add) {
 		items = new ArrayList<Item>();
-		setAddress(add);
+		address = add;
+		fillOrder();
 	}
 	
 	public void addItem(Item newItem)

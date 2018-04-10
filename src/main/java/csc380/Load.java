@@ -3,9 +3,8 @@ package csc380;
 import java.util.ArrayList;
 
 public class Load {
-	
+
 	private ArrayList<Order> orders;
-	String addresses[];
 	
 	public Load()
 	{
@@ -17,13 +16,11 @@ public class Load {
 		orders.add(newOrder);
 	}
 	
-	public String[] getAddresses()
-	{
-		addresses = new String[getSize()];
-		
-		for(int i = 0; i < orders.size(); i++)
-			addresses[i] = orders.get(i).getAddress();
-		
+	public ArrayList<String> getAddresses()
+	{		
+		ArrayList<String> addresses = new ArrayList<String>();
+		for(Order o : orders)
+			addresses.add(o.getAddress());
 		return addresses;
 	}
 	
