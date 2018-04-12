@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 import javax.swing.JButton;
@@ -156,5 +157,10 @@ public class Order {
 	public String getTelephoneNumber()
 	{
 		return telephoneNumber;
+	}
+	
+	public int getTimeOfOrder() {
+		Calendar now = Calendar.getInstance();
+		return now.get(Calendar.SECOND);
 	}
 }

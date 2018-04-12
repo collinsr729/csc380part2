@@ -13,6 +13,7 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 
 public class Map {
+	
 	Variables vars = new Variables();
 
 	public ArrayList<String> calculateRoute(ArrayList<String> addresses) {

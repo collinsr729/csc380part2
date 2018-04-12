@@ -12,7 +12,7 @@ public class Main {
 		Variables vars = new Variables();
 		
 		Calendar now = Calendar.getInstance();
-		int startTime = now.get(Calendar.MINUTE);
+		int startTime;
 
 		JOptionPane.showMessageDialog(null, "Welcome to the delivery service program.","Delivery Service",JOptionPane.PLAIN_MESSAGE);
 		Map map = new Map();
@@ -20,17 +20,38 @@ public class Main {
 		//GET MULTIPLE ADDRESSES
 		int anotherAddress = JOptionPane.YES_OPTION;
 		Load load = new Load();
-		while(anotherAddress == JOptionPane.YES_OPTION){
+		Load nextLoad = new Load();
+		
+		while(anotherAddress == JOptionPane.YES_OPTION)
+		{
 			String newAddress = JOptionPane.showInputDialog(null,"Enter an address:");
 			
-			if(!newAddress.equals("")) {
-				if(map.checkIfInBounds(map.DistanceCall(newAddress))) {
-					load.addOrder(new Order(newAddress));
+			if(!newAddress.equals("")) 
+			{
+				startTime = now.get(Calendar.SECOND);
+				load = nextLoad;
+				
+				if(map.checkIfInBounds(map.DistanceCall(newAddress))) 
+				{
+					Order newOrder = new Order(newAddress);
+					
+					if(newOrder.getTimeOfOrder() - startTime <= 10)
+					{	
+						load.addOrder(newOrder);
+						System.out.println("Placed in first order: " + (newOrder.getTimeOfOrder() - startTime));
+					}
+					
+					else
+					{
+						nextLoad.addOrder(newOrder);
+						System.out.println("Placed in next order: " + (newOrder.getTimeOfOrder() - startTime));
+					}
 				}
 				else
 					JOptionPane.showMessageDialog(null, String.format("Sorry address is too far by %.2fmi",map.convertMetersToMiles(map.DistanceCall(newAddress))),
 							"Error", JOptionPane.ERROR_MESSAGE);
 				anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address","More addresses",JOptionPane.YES_NO_OPTION);
+				startTime = now.get(Calendar.MINUTE);
 			}
 		}
 
