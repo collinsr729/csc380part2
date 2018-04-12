@@ -43,6 +43,8 @@ public class Main {
 		}
 
 		JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+		
+		
 
 	}
 
