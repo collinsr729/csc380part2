@@ -19,9 +19,9 @@ public class Map {
 	public ArrayList<String> calculateRoute(ArrayList<String> addresses) {
 
 		ArrayList<String> res = new ArrayList<String>();
-
+		String closest = vars.HOME;
 		while (!addresses.isEmpty()) {
-			String closest = findClosest(addresses);
+			closest = findClosest(closest, addresses);
 			addresses.remove(closest);
 			res.add(closest);
 		}
@@ -52,7 +52,7 @@ public class Map {
 
 	}
 
-	public String findClosest(ArrayList<String> adds) {
+	public String findClosest(String home, ArrayList<String> adds) {
 
 		ArrayList<Long> results = new ArrayList<Long>();
 		
@@ -62,13 +62,14 @@ public class Map {
 		for (int i = 0; i < adds.size(); i++) {
 			try {
 				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-				trix = req.origins(vars.HOME)
+				trix = req.origins(home)
 						.destinations(adds.get(i))
 						.mode(TravelMode.DRIVING)
 						.language("en-EN").await();
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
+				
 
 			results.add(getDistanceFromJSON(gson.toJson(trix.rows)));
 		}
@@ -85,6 +86,30 @@ public class Map {
 	private long getDistanceFromJSON(String o) { // Finds inMeters value from output
 		o = o.substring(o.indexOf("\"inMeters\"") + 12);
 		return Long.parseLong(o.substring(0, o.indexOf(",")));
+
+	}
+
+	private long getTimeTo(String home, String address) { // Finds inMeters value from outputGeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
+		DistanceMatrix trix = null;
+		System.out.println("DistanceCall: " + address);
+		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
+		try {
+			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+			trix = req.origins(home)
+					.destinations(address)
+					.mode(TravelMode.DRIVING)
+					.language("en-EN").await();
+		} catch (ApiException e) {
+			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String distance = gson.toJson(trix);
+		System.out.println(distance);
+		distance = distance.substring(distance.indexOf("\"inSeconds\"") + 13);
+		return Long.parseLong(distance.substring(0, distance.indexOf(",")));
 
 	}
 
