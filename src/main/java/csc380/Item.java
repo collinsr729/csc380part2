@@ -16,16 +16,22 @@ public class Item {
 	{
 		if(foodName.equalsIgnoreCase("steak"))
 			prepTime = 20;
+		
 		else if(foodName.equalsIgnoreCase("burger"))
 			prepTime = 15;
+		
 		else if(foodName.equalsIgnoreCase("fries"))
 			prepTime = 5;
+		
 		else if(foodName.equalsIgnoreCase("peppizza"))
 			prepTime = 12;
+		
 		else if(foodName.equalsIgnoreCase("cheesepizza"))
 			prepTime = 10;
+		
 		else if(foodName.equalsIgnoreCase("cheeseburger")) 
 			prepTime = 16;
+		
 		else
 			prepTime = 25;
 	}

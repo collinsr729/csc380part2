@@ -14,42 +14,50 @@ import com.google.maps.model.TravelMode;
 
 public class Map {
 	
-	Variables vars = new Variables();
+	Variables vars;
+	
+	public Map()
+	{
+		vars = new Variables();
+	}
 
-	public ArrayList<String> calculateRoute(ArrayList<String> addresses) {
-
+	public ArrayList<String> calculateRoute(ArrayList<String> addresses)
+	{
 		ArrayList<String> res = new ArrayList<String>();
 		String closest = vars.HOME;
-		while (!addresses.isEmpty()) {
+		while (!addresses.isEmpty())
+		{
 			closest = findClosest(closest, addresses);
 			addresses.remove(closest);
 			res.add(closest);
 		}
+		
 		return res;
 	}
 
-	public long DistanceCall(String address) {
-
+	public long DistanceCall(String address) 
+	{
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
 		System.out.println("DistanceCall: " + address);
-		try {
+		try 
+		{
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
 			trix = req.origins(vars.HOME)
 					.destinations(address)
 					.mode(TravelMode.DRIVING)
 					.language("en-EN").await();
-		} catch (ApiException e) {
+		} 
+		catch (ApiException e){
 			System.out.println(e.getMessage());
-		} catch (Exception e) {
+		}
+		catch (Exception e) { 
 			System.out.println(e.getMessage());
 		}
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String distance = gson.toJson(trix);
-		System.out.println(distance);
 		return getDistanceFromJSON(distance);
-
 	}
 
 	public String findClosest(String home, ArrayList<String> adds) {
@@ -89,7 +97,8 @@ public class Map {
 
 	}
 
-	private long getTimeTo(String home, String address) { // Finds inMeters value from outputGeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
+	private long getTimeTo(String home, String address) 
+	{ // Finds inMeters value from outputGeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
 		System.out.println("DistanceCall: " + address);
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
@@ -113,11 +122,13 @@ public class Map {
 
 	}
 
-	public Double convertMetersToMiles(long distance) {
+	public Double convertMetersToMiles(long distance) 
+	{
 		return distance * 0.00062137119;
 	}
 
-	public boolean checkIfInBounds(long d) {
+	public boolean checkIfInBounds(long d) 
+	{
 		return vars.DELIVERY_DISTANCE >= convertMetersToMiles(d);
 	}
 }

@@ -10,32 +10,33 @@ public class Main {
 	public static void main(String[] args) {
 
 		Variables vars = new Variables();
-		
-		Calendar now = Calendar.getInstance();
-		int startTime;
-
-		JOptionPane.showMessageDialog(null, "Welcome to the delivery service program.","Delivery Service",JOptionPane.PLAIN_MESSAGE);
+		boolean loadComplete = false;
 		Map map = new Map();
-		
-		//GET MULTIPLE ADDRESSES
+		int startTime;
 		int anotherAddress = JOptionPane.YES_OPTION;
 		Load load = new Load();
 		Load nextLoad = new Load();
+		String newAddress;
+		String confirmAddresses = "";
+		Order newOrder;
 		
+		JOptionPane.showMessageDialog(null, "CAMPUS DELIVERY", "Delivery Service", JOptionPane.PLAIN_MESSAGE);
+		
+		Calendar now = Calendar.getInstance();
+		startTime = now.get(Calendar.MINUTE);
+	
 		while(anotherAddress == JOptionPane.YES_OPTION)
 		{
-			String newAddress = JOptionPane.showInputDialog(null,"Enter an address:");
+			newAddress = JOptionPane.showInputDialog(null,"Address: ");
 			
 			if(!newAddress.equals("")) 
 			{
-				startTime = now.get(Calendar.SECOND);
-				load = nextLoad;
 				
 				if(map.checkIfInBounds(map.DistanceCall(newAddress))) 
 				{
-					Order newOrder = new Order(newAddress);
+					newOrder = new Order(newAddress);
 					
-					if(newOrder.getTimeOfOrder() - startTime <= 10)
+					if(newOrder.getTimeOfOrder() - startTime <= 1)
 					{	
 						load.addOrder(newOrder);
 						System.out.println("Placed in first order: " + (newOrder.getTimeOfOrder() - startTime));
@@ -45,86 +46,32 @@ public class Main {
 					{
 						nextLoad.addOrder(newOrder);
 						System.out.println("Placed in next order: " + (newOrder.getTimeOfOrder() - startTime));
+						loadComplete = true;
 					}
 				}
+				
 				else
 					JOptionPane.showMessageDialog(null, String.format("Sorry address is too far by %.2fmi",map.convertMetersToMiles(map.DistanceCall(newAddress))),
 							"Error", JOptionPane.ERROR_MESSAGE);
-				anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address","More addresses",JOptionPane.YES_NO_OPTION);
+			}//end if
+			
+			if(loadComplete)
+			{
+				ArrayList<String> addSorted = map.calculateRoute(load.getAddresses());
+
+				for(String add : addSorted) 
+					confirmAddresses = confirmAddresses + add + "\n";
+
+				JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				load = nextLoad;
+				
+				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);
 			}
-		}
-
-
-		ArrayList<String> addSorted = map.calculateRoute(load.getAddresses());
-
-		String confirmAddresses = "";
-		for(String add : addSorted) {
-			confirmAddresses = confirmAddresses+add+"\n";
-		}
-
-		JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			
+			anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address","More addresses",JOptionPane.YES_NO_OPTION);
+			System.out.println(startTime);
 		
-		
-
-	}
-
-
-
-	//		while(input.compareTo("q") != 0)
-	//		{
-	//			Load load = new Load();
-	//			Load nextLoad = new Load();
-	//			
-	//			load = nextLoad;
-	//			
-	//			Calendar now = Calendar.getInstance();
-	//			startTime = now.get(Calendar.MINUTE);
-	//
-	//			
-	//			while(input.compareTo("next") == 0)
-	//			{
-	//				Calendar now2 = Calendar.getInstance();
-	//				timeOfOrderPlaced = now2.get(Calendar.MINUTE);
-	//				//System.out.println(timeOfOrderPlaced);
-	//				
-	//				System.out.print("Food: ");
-	//				food = scan.nextLine();
-	//				System.out.print("\nAddress: ");
-	//				address = scan.nextLine();
-	//				
-	//				Order newOrder = new Order();
-	//				newOrder.addItem(new Item(food));
-	//				newOrder.setAddress(address);
-	//				
-	//				if(timeOfOrderPlaced - startTime <= 1)
-	//				{
-	//					//System.out.println(timeOfOrderPlaced - startTime);
-	//					load.addOrder(newOrder);
-	//				}
-	//				
-	//				else if(timeOfOrderPlaced - startTime > 1)
-	//				{	
-	//					nextLoad.addOrder(newOrder);
-	//					System.out.println("Added to next load. Time elapsed since start " 
-	//												+ (timeOfOrderPlaced - startTime));
-	//					input = "next load";
-	//				}
-	//				
-	//				if(load.getSize() == 3)
-	//					input = "next load";
-	//				
-	//				else
-	//					input = scan.nextLine();
-	//			}
-	//			
-	//			System.out.println("Load complete");
-	//			
-	//			Map map = new Map();
-	//			
-	//			map.calculateRoute(load.getAddresses());
-	//			
-	//			input = scan.nextLine();
-	//		}
-
-}
+		}//end while
+	}//end main
+}//end Main

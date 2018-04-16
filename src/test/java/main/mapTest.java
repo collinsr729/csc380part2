@@ -34,4 +34,12 @@ public class mapTest {
 		
 		assertFalse(map.checkIfInBounds(5*1610)); //5+ miles
 	}
+	
+	@Test
+	public void testDistanceCall()
+	{
+		Map map = new Map();
+	
+		assertEquals(61897, map.DistanceCall("233 Slawson Drive"));
+	}
 }
