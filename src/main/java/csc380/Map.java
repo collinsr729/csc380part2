@@ -78,7 +78,6 @@ public class Map {
 				System.out.println(e.getMessage());
 			}
 				
-
 			results.add(getDistanceFromJSON(gson.toJson(trix.rows)));
 		}
 
@@ -88,10 +87,12 @@ public class Map {
 				result = i;
 			}
 		}
+		
+		System.out.println(adds.get(result));
 		return adds.get(result);
 	}
 
-	private long getDistanceFromJSON(String o) { // Finds inMeters value from output
+	public long getDistanceFromJSON(String o) { // Finds inMeters value from output
 		o = o.substring(o.indexOf("\"inMeters\"") + 12);
 		return Long.parseLong(o.substring(0, o.indexOf(",")));
 
