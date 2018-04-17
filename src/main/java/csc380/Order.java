@@ -100,11 +100,8 @@ public class Order {
 		check  = true;
 	}
 
-	public Order()
+	public Order(String add) 
 	{
-		items = new ArrayList<Item>();
-	}
-	public Order(String add) {
 		items = new ArrayList<Item>();
 		address = add;
 		fillOrder();
@@ -115,7 +112,7 @@ public class Order {
 		items.add(newItem);
 	}
 	
-	public Item getItem2(int index)
+	public Item getItem(int index)
 	{
 		return items.get(index);
 	}

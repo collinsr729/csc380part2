@@ -14,7 +14,7 @@ import com.google.maps.model.TravelMode;
 
 public class Map {
 	
-	Variables vars;
+	private Variables vars;
 	
 	public Map()
 	{
@@ -96,6 +96,32 @@ public class Map {
 		o = o.substring(o.indexOf("\"inMeters\"") + 12);
 		return Long.parseLong(o.substring(0, o.indexOf(",")));
 
+	}
+	
+	String js = new String();
+	
+	public boolean checkValidAddress(String address) {
+		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
+		DistanceMatrix trix = null;
+		System.out.println("DistanceCall: " + address);
+		try {
+			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
+			trix = req.origins(vars.HOME)
+					.destinations(address)
+					.mode(TravelMode.DRIVING)
+					.language("en-EN").await();
+		} catch (ApiException e) {
+			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String distance = gson.toJson(trix);
+		js = distance;
+		distance = distance.substring(distance.indexOf("STATUS")+10);
+		distance = distance.substring(0,distance.indexOf(","));
+		return distance.equalsIgnoreCase("NOT_FOUND");
 	}
 
 	private long getTimeTo(String home, String address) 

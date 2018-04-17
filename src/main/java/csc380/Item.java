@@ -3,8 +3,8 @@ package csc380;
 
 public class Item {
 	
-	String foodName;
-	int prepTime;
+	private String foodName;
+	private int prepTime;
 	
 	public Item(String foodName)
 	{
