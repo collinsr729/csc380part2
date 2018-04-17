@@ -19,8 +19,9 @@ public class Main {
 		String confirmAddresses = "";
 		Order newOrder;
 		boolean loadComplete = false;
+		boolean nextLoadInitiated = false;
 
-		JOptionPane.showMessageDialog(null, "CAMPUS DELIVERY", "Delivery Service", JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Welcome to CAMPUS DELIVERY", "Delivery Service", JOptionPane.PLAIN_MESSAGE);
 		now = Calendar.getInstance();
 		startTime = now.get(Calendar.MINUTE);
 		allLoads.add(new Load());
@@ -39,8 +40,13 @@ public class Main {
 					if (newOrder.getTimeOfOrder() - startTime <= 1)
 					{
 						allLoads.get(allLoads.size()-1).addOrder(newOrder);
-						loadComplete = false;
 						System.out.println("Placed in load " + allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
+						
+						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
+								"More addresses", JOptionPane.YES_NO_OPTION);
+						
+						if(anotherAddress == JOptionPane.NO_OPTION)
+							loadComplete = true;
 					}
 					
 					else if(JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog(null, "Time has detected new Load,"
@@ -51,14 +57,18 @@ public class Main {
 						nextLoad.addOrder(newOrder);
 						allLoads.add(nextLoad);
 						System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
+						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
+								"More addresses", JOptionPane.YES_NO_OPTION);
 						loadComplete = true;
+						nextLoadInitiated = true;
 					}
 					
 					else 
 					{
 						allLoads.get(allLoads.size() - 1).addOrder(newOrder);
-						loadComplete = false;
 						System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
+						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
+								"More addresses", JOptionPane.YES_NO_OPTION);
 					}
 				}
 
@@ -89,6 +99,8 @@ public class Main {
 							ords.add(s);
 				}
 				
+				loadAddresses = allLoads.get(allLoads.size() - 1).getAddresses();
+				
 				ArrayList<String> sortedAddresses = map.calculateRoute(loadAddresses);
 
 				for (String add : sortedAddresses)
@@ -102,12 +114,14 @@ public class Main {
 				
 				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);
+				loadComplete = false;
+				if(!nextLoadInitiated)
+					allLoads.add(new Load());
+				
+				anotherAddress = JOptionPane.YES_OPTION;
+				confirmAddresses = "";
+				
 			}//end if
-			
-			anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address",
-					"More addresses", JOptionPane.YES_NO_OPTION);
 		} // end while
-		
-		
 	}// end main
 }// end Main
