@@ -15,6 +15,18 @@ public class Order {
 	
 	private ArrayList<Item> items;
 	private String name, address, telephoneNumber;
+	private int timeOfOrder;
+	private Calendar now;
+	
+	public Order(String add) 
+	{
+		items = new ArrayList<Item>();
+		address = add;
+		now = Calendar.getInstance();
+		timeOfOrder = now.get(Calendar.MINUTE);
+		fillOrder();
+	}
+	
 	
 	public void fillOrder(){
 		JFrame.setDefaultLookAndFeelDecorated(false);;
@@ -96,17 +108,11 @@ public class Order {
 	private boolean getCheckout() {
 		return check;
 	}
+	
 	private void checkout() {
 		check  = true;
 	}
 
-	public Order(String add) 
-	{
-		items = new ArrayList<Item>();
-		address = add;
-		fillOrder();
-	}
-	
 	public void addItem(Item newItem)
 	{
 		items.add(newItem);
@@ -156,8 +162,9 @@ public class Order {
 		return telephoneNumber;
 	}
 	
-	public int getTimeOfOrder() {
-		return Main.now.get(Calendar.MINUTE);
+	public int getTimeOfOrder() 
+	{
+		return timeOfOrder;
 	}
 	
 	public String toString() {
