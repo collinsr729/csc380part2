@@ -160,7 +160,10 @@ public class Order {
 	}
 	
 	public int getTimeOfOrder() {
-		Calendar now = Calendar.getInstance();
-		return now.get(Calendar.MINUTE);
+		return Main.now.get(Calendar.MINUTE);
+	}
+	
+	public String toString() {
+		return items.toString();
 	}
 }

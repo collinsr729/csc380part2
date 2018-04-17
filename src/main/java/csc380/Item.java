@@ -45,5 +45,10 @@ public class Item {
 	{
 		return prepTime;
 	}
+	
+	public String toString() {
+		
+		return getFoodName()+": "+getPrepTime();
+	}
 
 }

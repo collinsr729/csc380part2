@@ -29,6 +29,16 @@ public class Load {
 		return orders.size();
 	}
 	
+	public ArrayList<Order> getOrders()
+	{
+		return orders;
+	}
+	public String toString() {
+		return orders.toString();
+	}
+	
+	
+	
 	
 
 }
