@@ -66,8 +66,8 @@ public class Map {
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
-		DistanceMatrix trix = null;
 		for (int i = 0; i < adds.size(); i++) {
+			DistanceMatrix trix = null;
 			try {
 				DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
 				trix = req.origins(home)
@@ -83,12 +83,10 @@ public class Map {
 
 		int result = 0;
 		for (int i = 0; i < results.size(); i++) {
-			if (results.get(result) < results.get(i)) {
+			if (results.get(result) > results.get(i)) {
 				result = i;
 			}
 		}
-		
-		System.out.println(adds.get(result));
 		return adds.get(result);
 	}
 
