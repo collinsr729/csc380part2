@@ -49,7 +49,7 @@ public class mapTest {
 		testAddresses.add("233 Slawson Drive");
 		testAddresses.add("302 Second Street, Solvay");
 		
-		assertEquals("233 Slawson Drive", map.findClosest("7060 NY104, 13126", testAddresses));
+		assertEquals("302 Second Street, Solvay", map.findClosest("7060 NY104, 13126", testAddresses));
 	}
 	
 	@Test
@@ -67,11 +67,11 @@ public class mapTest {
 		ArrayList<String> testList = new ArrayList();
 		ArrayList<String> addressList = new ArrayList();
 		
-		testList.add("233 Slawson Drive");
 		testList.add("302 Second Street, Solvay");
+		testList.add("233 Slawson Drive");
 		
-		addressList.add("302 Second Street, Solvay");
 		addressList.add("233 Slawson Drive");
+		addressList.add("302 Second Street, Solvay");
 		
 		assertEquals(testList, map.calculateRoute(addressList));
 	}
