@@ -1,5 +1,6 @@
 package csc380;
 
+import java.awt.JobAttributes;
 import java.util.ArrayList;
 import java.util.Calendar;
 import javax.swing.JOptionPane;
@@ -93,8 +94,6 @@ public class Main {
 					}
 				};
 				for(Load l : allLoads) {
-					for(String s : l.getAddresses())
-						loadAddresses.add(s);
 					for(Order s : l.getOrders())
 							ords.add(s);
 				}
@@ -117,19 +116,22 @@ public class Main {
 				
 				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);
-				if(!nextLoadInitiated)
-					allLoads.add(new Load());
-				String s = JOptionPane.showInputDialog(null, "Are there any more addresses?");
+				int s = JOptionPane.showConfirmDialog(null, "Are there any more loads?","Add load", JOptionPane.YES_NO_OPTION);
 				
-				if(s.compareTo("no") != 0)
+				if(s == JOptionPane.NO_OPTION)
 				{
-					anotherAddress = JOptionPane.YES_OPTION;
-					confirmAddresses = "";
-					loadComplete = false;
+					System.exit(0);
 				}
 				
-				else
-					anotherAddress = JOptionPane.NO_OPTION;
+				else {
+					anotherAddress = JOptionPane.YES_OPTION;
+					loadComplete = false;
+
+					if(!nextLoadInitiated) {
+					allLoads.add(new Load());
+					nextLoadInitiated = true;
+					}
+				}
 				
 			}//end if
 		} // end while
