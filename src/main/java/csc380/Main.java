@@ -57,8 +57,6 @@ public class Main {
 						nextLoad.addOrder(newOrder);
 						allLoads.add(nextLoad);
 						System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
-						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
-								"More addresses", JOptionPane.YES_NO_OPTION);
 						loadComplete = true;
 						nextLoadInitiated = true;
 					}
@@ -69,6 +67,8 @@ public class Main {
 						System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
 						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
 								"More addresses", JOptionPane.YES_NO_OPTION);
+						if(anotherAddress == JOptionPane.NO_OPTION)
+							loadComplete = true;
 					}
 				}
 
@@ -109,7 +109,7 @@ public class Main {
 				JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.PLAIN_MESSAGE,
 						JOptionPane.INFORMATION_MESSAGE);
 				
-				JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.OK_OPTION,
+				JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.PLAIN_MESSAGE,
 						JOptionPane.INFORMATION_MESSAGE);
 				
 				now = Calendar.getInstance();
