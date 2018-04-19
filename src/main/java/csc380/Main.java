@@ -99,7 +99,10 @@ public class Main {
 							ords.add(s);
 				}
 				
-				loadAddresses = allLoads.get(allLoads.size() - 1).getAddresses();
+				if(!nextLoadInitiated)
+					loadAddresses = allLoads.get(allLoads.size() - 1).getAddresses();
+				else
+					loadAddresses = allLoads.get(allLoads.size() - 2).getAddresses();
 				
 				ArrayList<String> sortedAddresses = map.calculateRoute(loadAddresses);
 
@@ -114,12 +117,19 @@ public class Main {
 				
 				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);
-				loadComplete = false;
 				if(!nextLoadInitiated)
 					allLoads.add(new Load());
+				String s = JOptionPane.showInputDialog(null, "Are there any more addresses?");
 				
-				anotherAddress = JOptionPane.YES_OPTION;
-				confirmAddresses = "";
+				if(s.compareTo("no") != 0)
+				{
+					anotherAddress = JOptionPane.YES_OPTION;
+					confirmAddresses = "";
+					loadComplete = false;
+				}
+				
+				else
+					anotherAddress = JOptionPane.NO_OPTION;
 				
 			}//end if
 		} // end while
