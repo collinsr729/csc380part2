@@ -13,7 +13,7 @@ public class Printer
 {
 
 	  
-		public void sendEmail(ArrayList<String> addresses) throws AddressException, MessagingException
+		public void sendEmail(ArrayList<String> addresses, int loadNumber) throws AddressException, MessagingException
 		{
 			
 			Properties mailServerProperties;
@@ -28,8 +28,8 @@ public class Printer
 	 
 			getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 			generateMailMessage = new MimeMessage(getMailSession);
-			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("csc380receiptsender@gmail.com"));
-			generateMailMessage.setSubject("DO NOT REPLY ;) ");
+			generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("csc380receiptreceiver@gmail.com"));
+			generateMailMessage.setSubject("Receipt Details for Load " + loadNumber);
 			emailBody = formatReceiptForEmail(addresses);
 			generateMailMessage.setContent(emailBody, "text/html");
 	 

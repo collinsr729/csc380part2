@@ -98,16 +98,7 @@ public class Main {
 						return res;
 					}
 				};
-<<<<<<< HEAD
-				/*for(Load l : allLoads) {
-					for(String s : l.getAddresses())
-						loadAddresses.add(s);
-=======
-				for(Load l : allLoads) {
->>>>>>> 775b9ff39c58357a03f9052b37246aef59994960
-					for(Order s : l.getOrders())
-							ords.add(s);
-				}*/
+
 				
 				if(!nextLoadInitiated)
 					loadAddresses = allLoads.get(allLoads.size() - 1).getAddresses();
@@ -115,8 +106,9 @@ public class Main {
 					loadAddresses = allLoads.get(allLoads.size() - 2).getAddresses();
 				
 				ArrayList<String> sortedAddresses = map.calculateRoute(loadAddresses);
-				email.sendEmail(sortedAddresses);
+				email.sendEmail(sortedAddresses, allLoads.size());
 
+				confirmAddresses = "";
 				for (String add : sortedAddresses)
 					confirmAddresses = confirmAddresses + add + "\n";
 
@@ -139,10 +131,9 @@ public class Main {
 					anotherAddress = JOptionPane.YES_OPTION;
 					loadComplete = false;
 
-					if(!nextLoadInitiated) {
-					allLoads.add(new Load());
-					nextLoadInitiated = true;
-					}
+					if(!nextLoadInitiated)
+						allLoads.add(new Load());
+					nextLoadInitiated = false;
 				}
 				
 			}//end if
