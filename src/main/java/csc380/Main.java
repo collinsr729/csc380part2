@@ -14,8 +14,7 @@ public class Main {
 	
 	public static void main(String[] args) throws AddressException, MessagingException {
 		
-		Printer email = new Printer();
-
+		Email email = new Email();
 		Variables vars = new Variables();
 		Map map = new Map();
 		int startTime;
@@ -26,6 +25,8 @@ public class Main {
 		Order newOrder;
 		boolean loadComplete = false;
 		boolean nextLoadInitiated = false;
+		
+		//-------------------------------------- B E G I N -- C O D E ------------------------------------------------//
 
 		JOptionPane.showMessageDialog(null, "Welcome to CAMPUS DELIVERY", "Delivery Service", JOptionPane.PLAIN_MESSAGE);
 		now = Calendar.getInstance();
@@ -106,7 +107,7 @@ public class Main {
 					loadAddresses = allLoads.get(allLoads.size() - 2).getAddresses();
 				
 				ArrayList<String> sortedAddresses = map.calculateRoute(loadAddresses);
-				email.sendEmail(sortedAddresses, allLoads.size());
+				email.sendEmail(sortedAddresses, allLoads.get(allLoads.size() - 1), allLoads.size());
 
 				confirmAddresses = "";
 				for (String add : sortedAddresses)
@@ -123,19 +124,17 @@ public class Main {
 				int s = JOptionPane.showConfirmDialog(null, "Are there any more loads?","Add load", JOptionPane.YES_NO_OPTION);
 				
 				if(s == JOptionPane.NO_OPTION)
-				{
 					System.exit(0);
-				}
 				
-				else {
+				else 
+				{
 					anotherAddress = JOptionPane.YES_OPTION;
 					loadComplete = false;
 
 					if(!nextLoadInitiated)
 						allLoads.add(new Load());
 					nextLoadInitiated = false;
-				}
-				
+				}//end else
 			}//end if
 		} // end while
 	}// end main

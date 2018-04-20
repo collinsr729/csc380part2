@@ -170,4 +170,10 @@ public class Order {
 	public String toString() {
 		return items.toString();
 	}
+	
+	public int getNumberOfItems()
+	{
+		return items.size();
+	}
+	
 }

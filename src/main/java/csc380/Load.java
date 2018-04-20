@@ -33,12 +33,17 @@ public class Load {
 	{
 		return orders;
 	}
-	public String toString() {
+	
+	public String toString() 
+	{
 		return orders.toString();
 	}
 	
-	
-	
+		
+	public Order getOrder(int index)
+	{
+		return orders.get(index);
+	}
 	
 
 }

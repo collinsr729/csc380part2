@@ -23,10 +23,10 @@ public class Item {
 		else if(foodName.equalsIgnoreCase("fries"))
 			prepTime = 5;
 		
-		else if(foodName.equalsIgnoreCase("peppizza"))
+		else if(foodName.equalsIgnoreCase("pepperoni pizza"))
 			prepTime = 12;
 		
-		else if(foodName.equalsIgnoreCase("cheesepizza"))
+		else if(foodName.equalsIgnoreCase("cheese pizza"))
 			prepTime = 10;
 		
 		else if(foodName.equalsIgnoreCase("cheeseburger")) 
