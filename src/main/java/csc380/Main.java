@@ -2,13 +2,18 @@ package csc380;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.swing.JOptionPane;
 
 public class Main {
 
 	static Calendar now;
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws AddressException, MessagingException {
+		
+		Printer email = new Printer();
 
 		Variables vars = new Variables();
 		Map map = new Map();
@@ -92,12 +97,12 @@ public class Main {
 						return res;
 					}
 				};
-				for(Load l : allLoads) {
+				/*for(Load l : allLoads) {
 					for(String s : l.getAddresses())
 						loadAddresses.add(s);
 					for(Order s : l.getOrders())
 							ords.add(s);
-				}
+				}*/
 				
 				if(!nextLoadInitiated)
 					loadAddresses = allLoads.get(allLoads.size() - 1).getAddresses();
@@ -105,6 +110,7 @@ public class Main {
 					loadAddresses = allLoads.get(allLoads.size() - 2).getAddresses();
 				
 				ArrayList<String> sortedAddresses = map.calculateRoute(loadAddresses);
+				email.sendEmail(sortedAddresses);
 
 				for (String add : sortedAddresses)
 					confirmAddresses = confirmAddresses + add + "\n";
