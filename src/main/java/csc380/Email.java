@@ -1,5 +1,9 @@
 package csc380;
 
+//----------------------------------------------------------------------------------
+// download for java mail api with instructions https://javaee.github.io/javamail/
+//----------------------------------------------------------------------------------
+
 import java.util.ArrayList;
 import java.util.Properties;
 import javax.mail.Message;

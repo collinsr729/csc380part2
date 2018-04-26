@@ -116,8 +116,8 @@ public class Main {
 				JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.PLAIN_MESSAGE,
 						JOptionPane.INFORMATION_MESSAGE);
 				
-				JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.PLAIN_MESSAGE,
-						JOptionPane.INFORMATION_MESSAGE);
+				//JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.PLAIN_MESSAGE,
+					//	JOptionPane.INFORMATION_MESSAGE);
 				
 				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);
@@ -133,6 +133,7 @@ public class Main {
 
 					if(!nextLoadInitiated)
 						allLoads.add(new Load());
+					
 					nextLoadInitiated = false;
 				}//end else
 			}//end if
