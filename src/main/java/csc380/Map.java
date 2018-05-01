@@ -39,7 +39,7 @@ public class Map {
 	{
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
-		System.out.println("DistanceCall: " + address);
+		
 		try 
 		{
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
@@ -125,7 +125,7 @@ public class Map {
 	private long getTimeTo(String home, String address) 
 	{ // Finds inMeters value from outputGeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
-		System.out.println("DistanceCall: " + address);
+		//System.out.println("DistanceCall: " + address);
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		try {
 			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);

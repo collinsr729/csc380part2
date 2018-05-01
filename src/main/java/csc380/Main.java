@@ -34,7 +34,7 @@ public class Main {
 		allLoads.add(new Load());
 		
 		while (anotherAddress == JOptionPane.YES_OPTION){
-			System.out.println("Start time: " + startTime);
+			//System.out.println("Start time: " + startTime);
 			
 			newAddress = JOptionPane.showInputDialog(null, "Address: ");
 
@@ -47,7 +47,7 @@ public class Main {
 					if (newOrder.getTimeOfOrder() - startTime <= 1)
 					{
 						allLoads.get(allLoads.size()-1).addOrder(newOrder);
-						System.out.println("Placed in load " + allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
+						//System.out.println("Placed in load " + allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
 						
 						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
 								"More addresses", JOptionPane.YES_NO_OPTION);
@@ -63,7 +63,7 @@ public class Main {
 						Load nextLoad = new Load();
 						nextLoad.addOrder(newOrder);
 						allLoads.add(nextLoad);
-						System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
+						//System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
 						loadComplete = true;
 						nextLoadInitiated = true;
 					}
@@ -71,7 +71,7 @@ public class Main {
 					else 
 					{
 						allLoads.get(allLoads.size() - 1).addOrder(newOrder);
-						System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
+						//System.out.println("Placed in load "+ allLoads.size() + " at time: " + newOrder.getTimeOfOrder());
 						anotherAddress = JOptionPane.showConfirmDialog(null, "Would you like to enter another address to the load?",
 								"More addresses", JOptionPane.YES_NO_OPTION);
 						if(anotherAddress == JOptionPane.NO_OPTION)
@@ -115,9 +115,6 @@ public class Main {
 
 				JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.PLAIN_MESSAGE,
 						JOptionPane.INFORMATION_MESSAGE);
-				
-				//JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.PLAIN_MESSAGE,
-					//	JOptionPane.INFORMATION_MESSAGE);
 				
 				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);

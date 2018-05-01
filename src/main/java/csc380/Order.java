@@ -37,42 +37,36 @@ public class Order {
 	    CheesePizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
 	    		    addItem(new Item("cheesepizza"));
-	    		   // System.out.println("Cheese");
 	    		  } 
 	    		} );
 	    JButton PepPizza = new JButton("Pepperoni Pizza");
 	    PepPizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		    addItem(new Item("peppizza"));
-	    		    //System.out.println("Pep");
 	    		  } 
 	    		} );
 	    JButton Steak = new JButton("Steak");
 	    Steak.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
 	    		    addItem(new Item("steak"));
-	    		    //System.out.println("steak");
 	    		  } 
 	    		} );
 	    JButton Burger = new JButton("Burger");
 	    Burger.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		    addItem(new Item("burger"));
-	    		    //System.out.println("burger");
 	    		  } 
 	    		} );
 	    JButton Fries = new JButton("Fries");
 	    Fries.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		    addItem(new Item("fries"));
-	    		    //System.out.println("fries");
 	    		  } 
 	    		} );
 	    JButton CBurger = new JButton("Cheese Burger");
 	    CBurger.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		    addItem(new Item("cheeseburger"));
-	    		    System.out.println("cheeseburger");
 	    		  } 
 	    		} );
 	    
