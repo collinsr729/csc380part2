@@ -168,7 +168,7 @@ public class Order {
 	}
 	
 	public String toString() {
-		return items.toString();
+		return getAddress() + ":\n" + items.toString();
 	}
 	
 	public int getNumberOfItems()

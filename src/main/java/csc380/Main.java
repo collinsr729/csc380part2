@@ -14,6 +14,8 @@ public class Main {
 	
 	public static void main(String[] args) throws AddressException, MessagingException {
 		
+		myFrame fram = new myFrame();
+		fram.setAutoRequestFocus(true);
 		Email email = new Email();
 		Variables vars = new Variables();
 		Map map = new Map();
@@ -94,7 +96,7 @@ public class Main {
 						String res = "";
 						int count = 0;
 						for(Order o : this) {
-							res += o+" " + ++count;
+							res += "Order "+ ++count+"\n" + o.toString() + "\n";
 						}
 						return res;
 					}
@@ -116,15 +118,22 @@ public class Main {
 				JOptionPane.showConfirmDialog(null, confirmAddresses, "Sorted", JOptionPane.PLAIN_MESSAGE,
 						JOptionPane.INFORMATION_MESSAGE);
 				
-				//JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.PLAIN_MESSAGE,
-					//	JOptionPane.INFORMATION_MESSAGE);
+				//
 				
 				now = Calendar.getInstance();
 				startTime = now.get(Calendar.MINUTE);
 				int s = JOptionPane.showConfirmDialog(null, "Are there any more loads?","Add load", JOptionPane.YES_NO_OPTION);
 				
-				if(s == JOptionPane.NO_OPTION)
-					System.exit(0);
+				if(s == JOptionPane.NO_OPTION) {
+					for(Load l : allLoads) {
+						for(Order o : l.getOrders()) {
+							ords.add(o);
+						}
+					}
+					JOptionPane.showConfirmDialog(null, ords.toString(), "Order Details", JOptionPane.PLAIN_MESSAGE,
+													JOptionPane.INFORMATION_MESSAGE);
+					break;
+				}
 				
 				else 
 				{
