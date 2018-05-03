@@ -2,6 +2,7 @@ package csc380;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +23,8 @@ public class myFrame extends JFrame {
 		super("Campus Delivery");
 
 		setBounds(100, 100, 800, 400);
+		setLayout(new BorderLayout());
+		setBackground(new Color(0, 0, 0));
 		confirm = new JButton("Ok");
 		deny = new JButton("Cancel");
 
@@ -29,12 +32,8 @@ public class myFrame extends JFrame {
 		text.setEditable(false);
 		textBox = new JTextPane();
 		textBox.setEditable(true);
-		textFeed = new JTextPane() {
-			public void addItem(String s) {
-				this.setText(this.getText()+"\n"+s);
-			}
-		};
-		text.setEditable(false);
+		textFeed = new JTextPane();
+		textFeed.setEditable(false);
 		text.setText("Just setting up...");
 		
 		
@@ -62,8 +61,9 @@ public class myFrame extends JFrame {
 		leftPanel.add(leftOkCancel);
 		
 		JPanel rightSide = new JPanel(new CardLayout());
-		JPanel menu = new JPanel();
-	    menu.setLayout(new GridLayout(3, 2));
+		JPanel menuHost = new JPanel(new BorderLayout());
+		JPanel menu = new JPanel(new GridLayout(3,2));
+		menu.setSize(getWidth()/3, getHeight());
 	    JButton CheesePizza = new JButton("Cheese Pizza");
 	    CheesePizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
@@ -73,39 +73,39 @@ public class myFrame extends JFrame {
 	    JButton PepPizza = new JButton("Pepperoni Pizza");
 	    PepPizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
-	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
+	    		    textFeed.setText(textFeed.getText()+"\nPepperoni Pizza");
 	    		  } 
 	    		} );
 	    JButton Steak = new JButton("Steak");
 	    Steak.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
-	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
+	    		    textFeed.setText(textFeed.getText()+"\nSteak");
 	    		  } 
 	    		} );
 	    JButton Burger = new JButton("Burger");
 	    Burger.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
-	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
+	    		    textFeed.setText(textFeed.getText()+"\nBurger");
 	    		  } 
 	    		} );
 	    JButton Fries = new JButton("Fries");
 	    Fries.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
-	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
+	    		    textFeed.setText(textFeed.getText()+"\nFries");
 	    		  } 
 	    		} );
 	    JButton CBurger = new JButton("Cheese Burger");
 	    CBurger.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
-	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
+	    		    textFeed.setText(textFeed.getText()+"\nCheese Burger");
 	    		  } 
 	    		} );
 	    
 	    JButton Checkout = new JButton("Checkout");
 	    Checkout.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
-	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
-	    		    ///////// NEED TO INSPECT textFeed here - create a menu
+	    		    textFeed.setText(textFeed.getText()+"\nFuck you i dont work");
+	    		    ///////// NEED TO INSPECT textFeed here - create a order
 	    		  } 
 	    		} );
 	    menu.add(CheesePizza);
@@ -115,7 +115,11 @@ public class myFrame extends JFrame {
 	    menu.add(Fries);
 	    menu.add(Steak);
 	    menu.add(Checkout);
-		menu.setVisible(true);
+	    menuHost.add(menu, BorderLayout.CENTER);
+	    JPanel menuOutput = new JPanel();
+	    menuOutput.add(textFeed);
+	    menuHost.add(menuOutput,BorderLayout.EAST);
+	    rightSide.add(menuHost);
 		
 		
 		
@@ -125,7 +129,9 @@ public class myFrame extends JFrame {
 		
 		
 		
-		add(leftPanel);
+		add(leftPanel, BorderLayout.WEST);
+		add(rightSide,BorderLayout.CENTER);
+		
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
