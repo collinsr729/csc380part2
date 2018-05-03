@@ -18,10 +18,14 @@ public class myFrame extends JFrame {
 	JButton confirm, deny;
 	boolean bool = true;
 	boolean buttonPressed = false;
-	JPanel leftOkCancel;
+	JPanel leftOkCancel,menuOutput,menuHost,leftPanel,rightPanel, mainPanel;
+	CardLayout left = new CardLayout();
+	CardLayout right = new CardLayout();
+	CardLayout main = new CardLayout();
+	
 	public myFrame() {
 		super("Campus Delivery");
-
+		
 		setBounds(100, 100, 800, 400);
 		setLayout(new BorderLayout());
 		setBackground(new Color(0, 0, 0));
@@ -53,17 +57,17 @@ public class myFrame extends JFrame {
 		leftOkCancel = new JPanel(new BorderLayout());		//Borderlayout to put buttons below text
 		leftOkCancel.setBounds(getX(),getY(),getWidth()/2,getHeight());
 		leftOkCancel.add(text, BorderLayout.NORTH);
-		JPanel leftPanel = new JPanel(new CardLayout());	//Card layout to have multiple variations on the left side
+		leftPanel = new JPanel(left);	//Card layout to have multiple variations on the left side
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.add(confirm);
 		buttonPanel.add(deny);
 		leftOkCancel.add(buttonPanel, BorderLayout.SOUTH);
 		leftPanel.add(leftOkCancel);
 		
-		JPanel rightSide = new JPanel(new CardLayout());
-		JPanel menuHost = new JPanel(new BorderLayout());
+		rightPanel = new JPanel(right);
+		menuHost = new JPanel(new BorderLayout());
 		JPanel menu = new JPanel(new GridLayout(3,2));
-		menu.setSize(getWidth()/3, getHeight());
+//		menu.setSize(getWidth()/3, getHeight());
 	    JButton CheesePizza = new JButton("Cheese Pizza");
 	    CheesePizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
@@ -104,8 +108,9 @@ public class myFrame extends JFrame {
 	    JButton Checkout = new JButton("Checkout");
 	    Checkout.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
-	    		    textFeed.setText(textFeed.getText()+"\nFuck you i dont work");
+	    		    textFeed.setText(textFeed.getText()+"\nScrew you i dont work");
 	    		    ///////// NEED TO INSPECT textFeed here - create a order
+	    		    showMenuOut();
 	    		  } 
 	    		} );
 	    menu.add(CheesePizza);
@@ -116,26 +121,34 @@ public class myFrame extends JFrame {
 	    menu.add(Steak);
 	    menu.add(Checkout);
 	    menuHost.add(menu, BorderLayout.CENTER);
-	    JPanel menuOutput = new JPanel();
+	    menuOutput = new JPanel();
 	    menuOutput.add(textFeed);
 	    menuHost.add(menuOutput,BorderLayout.EAST);
-	    rightSide.add(menuHost);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		add(leftPanel, BorderLayout.WEST);
-		add(rightSide,BorderLayout.CENTER);
-		
+	    rightPanel.add(menuHost,"menu");
+		mainPanel = new JPanel(main);
+		JPanel border = new JPanel(new BorderLayout());
+		border.add(leftPanel,BorderLayout.WEST);
+		border.add(rightPanel,BorderLayout.CENTER);
+		mainPanel.add(statupPanel(), "start");
+		mainPanel.add(border,"menu");
+		mainPanel.add(new JPanel(),"blank");
+		add(mainPanel);
+//		pack();
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
+	
 	public void setText(String s) {
 		text.setText(s);
+	}
+
+	public void showMenu() {
+		main.show(mainPanel, "menu");
+	}
+	public void showStart() {
+		main.show(mainPanel, "start");
+	}
+	public void showMenuOut() {
+		main.show(mainPanel, "blank");
 	}
 }
