@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,13 +26,12 @@ public class myFrame extends JFrame {
 	boolean bool = true;
 	boolean buttonPressed = false;
 	boolean loadOpened;
+	boolean loadComplete;
 	JPanel leftOkCancel,menuOutput,menuHost,leftPanel,rightPanel, mainPanel;
 	CardLayout left = new CardLayout();
 	CardLayout right = new CardLayout();
 	CardLayout main = new CardLayout();
-	
 	JPanel cards;
-
 	
 	public myFrame() 
 	{
@@ -46,14 +47,7 @@ public class myFrame extends JFrame {
 		menuHost = new JPanel(new BorderLayout());
 	    menuOutput = new JPanel();
 		mainPanel = new JPanel(main);
-	
-		setUpFrame();
 
-		cards.add(startUpPanel(), "Start up");
-		cards.add(panelForLoad(),"Load details");
-		cards.add(panelForOrder(), "Orders");
-		add(cards);
-			
 //		
 //		confirm = new JButton("Ok");
 //		deny = new JButton("Cancel");
@@ -160,6 +154,17 @@ public class myFrame extends JFrame {
 //		mainPanel.add(new JPanel(),"blank");
 //		add(mainPanel);
 ////		pack();
+	
+	}
+	
+	public void openFrame()
+	{
+		setUpFrame();
+
+		cards.add(startUpPanel(), "Start up");
+		cards.add(panelForLoad(),"Load details");
+		cards.add(panelForOrder(), "Orders");
+		add(cards);
 		this.setVisible(true);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -215,6 +220,17 @@ public class myFrame extends JFrame {
 		closeLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e)
 			{
+				Map map = new Map();
+				try {
+					data.getRoute(map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses()));
+				} catch (AddressException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (MessagingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				setLoadComplete(true);
 				left.previous(cards);
 			}
 		});
@@ -223,7 +239,7 @@ public class myFrame extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				getData().getLoad(getData().getAllLoads().size() -1).addOrder(new Order("Hello"));
+				getData().getLoad(getData().getAllLoads().size() -1).addOrder(new Order("233 Slawson Drive, Camillus"));
 				if(data.getAllLoads().size() > 0)
 				{
 					int loadIndex = data.getAllLoads().size() - 1;
@@ -308,18 +324,21 @@ public class myFrame extends JFrame {
 	    		} );
 	    
 	    JButton CBurger = new JButton("Cheese Burger");
-	    CBurger.addActionListener(new ActionListener() { 
-	    	  public void actionPerformed(ActionEvent e) { 
+	    CBurger.addActionListener(new ActionListener() 
+	    { 
+	    	  public void actionPerformed(ActionEvent e) 
+	    	  { 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Cheese Burger"));
 	    		    orderTextFeed.setText(orderTextFeed.getText()+"\nCheese Burger");
-	    		  } 
-	    		} );
+	    		} 
+	    } );
 	    
 	    JButton checkout = new JButton("Checkout");
-	    checkout.addActionListener(new ActionListener() {
+	    checkout.addActionListener(new ActionListener()
+	    {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
 
@@ -339,8 +358,22 @@ public class myFrame extends JFrame {
 	    });
 	    
 	    JButton closeLoad = new JButton("Close load");
-	    closeLoad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+	    closeLoad.addActionListener(new ActionListener() 
+	    {
+			public void actionPerformed(ActionEvent e) 
+			{
+				
+				Map map = new Map();
+				try 
+				{
+					data.getRoute(map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses()));
+				} catch (AddressException e1) {
+					e1.printStackTrace();
+				} catch (MessagingException e1) {
+					e1.printStackTrace();
+				}
+				setLoadComplete(true);
+				left.previous(cards);
 
 				left.first(cards);
 			}
@@ -370,6 +403,11 @@ public class myFrame extends JFrame {
 		mainPanel.add(new JPanel(),"blank");
 		
 		return mainPanel;
+	}
+	
+	private void setLoadComplete(boolean e)
+	{
+		loadComplete = e;
 	}
 	
 	public void setText(String s) {

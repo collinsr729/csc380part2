@@ -2,6 +2,9 @@ package csc380;
 
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.AddressException;
+
 public class InformationCollector {
 	
 	ArrayList<Load> allLoads;
@@ -10,6 +13,12 @@ public class InformationCollector {
 		
 		allLoads = new ArrayList<Load>();
 		
+	}
+	
+	public void getRoute(ArrayList<String> sortedAddresses) throws AddressException, MessagingException
+	{
+		Email email = new Email();
+		email.sendEmail(sortedAddresses, allLoads.get(allLoads.size() - 1), allLoads.size());
 	}
 	
 	public void addLoad (Load newLoad){

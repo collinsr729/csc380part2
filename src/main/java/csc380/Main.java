@@ -15,7 +15,18 @@ public class Main {
 	public static void main(String[] args) throws AddressException, MessagingException {
 		
 		myFrame fram = new myFrame();
+		fram.openFrame();
+		Map map = new Map();
 		fram.setAutoRequestFocus(true);
+		
+		InformationCollector data = fram.getData();
+		
+		if(fram.loadComplete)
+		{
+			System.out.println("Entered");
+			map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses());
+			System.out.println("Success");
+		}
 //		Email email = new Email();
 //		Variables vars = new Variables();
 //		Map map = new Map();
