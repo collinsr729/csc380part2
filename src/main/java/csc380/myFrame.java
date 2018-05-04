@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -28,22 +29,25 @@ public class myFrame extends JFrame {
 	boolean loadOpened;
 	boolean loadComplete;
 	JPanel leftOkCancel,menuOutput,menuHost,leftPanel,rightPanel, mainPanel;
-	CardLayout left = new CardLayout();
-	CardLayout right = new CardLayout();
+	CardLayout mainCardLayout = new CardLayout();
+	CardLayout orderCardLayout = new CardLayout();
 	CardLayout main = new CardLayout();
 	JPanel cards;
+	JPanel orderPanel;
+	String name, address, phone;
 	
 	public myFrame() 
 	{
 		super("Campus Delivery");
-		cards = new JPanel(left);
+		cards = new JPanel(mainCardLayout);
 		data = new InformationCollector();
 		loadOpened = false;
 		orderTextFeed = new JTextPane();
 		loadTextFeed = new JTextPane();
 		leftOkCancel = new JPanel(new BorderLayout());		//Borderlayout to put buttons below text
-		leftPanel = new JPanel(left);	//Card layout to have multiple variations on the left side
-		rightPanel = new JPanel(right);
+		leftPanel = new JPanel(mainCardLayout);	//Card layout to have multiple variations on the left side
+		rightPanel = new JPanel(orderCardLayout);
+		orderPanel = new JPanel(orderCardLayout);
 		menuHost = new JPanel(new BorderLayout());
 	    menuOutput = new JPanel();
 		mainPanel = new JPanel(main);
@@ -188,7 +192,7 @@ public class myFrame extends JFrame {
 			public void actionPerformed(ActionEvent ev)
 			{
 				getData().addLoad(new Load());				
-				left.next(cards);
+				mainCardLayout.next(cards);
 				loadTextFeed.setText("LOAD " + getData().getAllLoads().size() + " DETAILS \n");
 				loadTextFeed.setFont(new Font("Calibri", Font.BOLD, 15));
 			}
@@ -231,7 +235,7 @@ public class myFrame extends JFrame {
 					e1.printStackTrace();
 				}
 				setLoadComplete(true);
-				left.previous(cards);
+				mainCardLayout.previous(cards);
 			}
 		});
 		
@@ -251,7 +255,7 @@ public class myFrame extends JFrame {
 				orderTextFeed.setText("Order # " + data.getLoad(data.getAllLoads().size() - 1).getOrders().size() 
 						+ "\t\t");
 				orderTextFeed.setForeground(Color.RED);
-				left.next(cards);
+				mainCardLayout.next(cards);
 			}
 		});
 		
@@ -353,7 +357,7 @@ public class myFrame extends JFrame {
 				}
 				
 				loadTextFeed.setText(loadTextFeed.getText() + "\n");
-	    		left.previous(cards);
+	    		mainCardLayout.previous(cards);
 	    	}
 	    });
 	    
@@ -373,9 +377,9 @@ public class myFrame extends JFrame {
 					e1.printStackTrace();
 				}
 				setLoadComplete(true);
-				left.previous(cards);
+				mainCardLayout.previous(cards);
 
-				left.first(cards);
+				mainCardLayout.first(cards);
 			}
 		});
 	    
@@ -390,11 +394,62 @@ public class myFrame extends JFrame {
 	    menu.add(checkout);
 	    menu.add(empty);
 	    menu.add(closeLoad);
+	    
+	    JPanel infoSubmissionPanel = new JPanel();
+	    final JTextField nameField = new JTextField(10);
+	    final JTextField addressField = new JTextField(10);
+	    final JTextField phoneField = new JTextField(10);
+	    JLabel nameLabel = new JLabel("Name: ");
+	    JLabel addressLabel = new JLabel("Address: ");
+	    JLabel phoneLabel = new JLabel("Phone: ");
+	    JButton submit = new JButton("Submit");
+	    
+	    nameLabel.setLabelFor(nameField);
+	    addressLabel.setLabelFor(addressField);
+	    phoneLabel.setLabelFor(phoneField);
+	    
+	    infoSubmissionPanel.setLayout(new GridLayout(4, 2, 5, 85));
+	    infoSubmissionPanel.add(nameLabel);
+	    infoSubmissionPanel.add(nameField);
+	    infoSubmissionPanel.add(addressLabel);
+	    infoSubmissionPanel.add(addressField);
+	    infoSubmissionPanel.add(phoneLabel);
+	    infoSubmissionPanel.add(phoneField);
+	    infoSubmissionPanel.add(submit);
+	    menuOutput.add(orderTextFeed);
+	    
+	    orderPanel.add(infoSubmissionPanel, "submission");
+	    orderPanel.add(menuOutput,"order details");
+	    
+	    submit.addActionListener(new ActionListener()
+	    {
+	    	public void actionPerformed(ActionEvent e)
+	    	{
+	    		orderCardLayout.show(orderPanel, "order details");
+	    		name = nameField.getText();
+	    		
+	    		data.getLoad(data.getAllLoads().size() 
+	    				-1).getOrder(data.getLoad(data.getAllLoads().size()-1).getOrders().size()
+	    						-1).setName(name);
+	    		
+	    		//System.out.println(name);
+	    		
+	    		address = addressField.getText();
+	    		
+	    		data.getLoad(data.getAllLoads().size() 
+	    				-1).getOrder(data.getLoad(data.getAllLoads().size()-1).getOrders().size()
+	    						-1).setName(address);
+	    		
+	    		//System.out.println(address);
+	    		
+	    		phone = phoneField.getText();
+	    		System.out.println(phone);
+	    	}
+	    });
 
 	    
 	    menuHost.add(menu, BorderLayout.CENTER);
-	    menuOutput.add(orderTextFeed);
-	    menuHost.add(menuOutput,BorderLayout.EAST);
+	    menuHost.add(orderPanel,BorderLayout.EAST);
 	    rightPanel.add(menuHost,"menu");
 		JPanel border = new JPanel(new BorderLayout());
 		border.add(leftPanel,BorderLayout.WEST);
