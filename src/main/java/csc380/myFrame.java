@@ -54,7 +54,7 @@ public class myFrame extends JFrame {
 		cards.add(panelForOrder(), "Orders");
 		add(cards);
 			
-		
+//		
 //		confirm = new JButton("Ok");
 //		deny = new JButton("Cancel");
 //
