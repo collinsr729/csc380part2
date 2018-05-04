@@ -24,11 +24,11 @@ public class Order {
 		address = add;
 		now = Calendar.getInstance();
 		timeOfOrder = now.get(Calendar.MINUTE);
-		fillOrder();
+		//fillOrder();
 	}
 	
 	
-	public void fillOrder(){
+	/*public void fillOrder(){
 		JFrame.setDefaultLookAndFeelDecorated(false);;
 		JFrame frame = new JFrame("Menu");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -96,7 +96,7 @@ public class Order {
 			}
 		}
 		frame.dispose();
-	}
+	}*/
 	
 	boolean check = false;
 	private boolean getCheckout() {
@@ -169,5 +169,6 @@ public class Order {
 	{
 		return items.size();
 	}
+	
 	
 }
