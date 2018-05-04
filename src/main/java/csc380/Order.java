@@ -144,6 +144,7 @@ public class Order {
 	public void setAddress(String destAddress)
 	{
 		address = destAddress;
+		System.out.println(address);
 	}
 	
 	public String getAddress()

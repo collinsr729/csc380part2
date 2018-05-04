@@ -24,6 +24,7 @@ public class myFrame extends JFrame {
 	InformationCollector data;
 	JTextPane text, textBox, orderTextFeed, loadTextFeed;
 	JButton confirm, deny;
+	JButton steak, cheeseburger, burger, pepPizza, cheesePizza, fries, checkout, closeLoad, empty;
 	boolean bool = true;
 	boolean buttonPressed = false;
 	boolean loadOpened;
@@ -256,6 +257,7 @@ public class myFrame extends JFrame {
 						+ "\t\t");
 				orderTextFeed.setForeground(Color.RED);
 				mainCardLayout.next(cards);
+				orderCardLayout.show(orderPanel, "submission");
 			}
 		});
 		
@@ -266,14 +268,15 @@ public class myFrame extends JFrame {
 	{
 		JPanel panel = openNewPanel();
 		
+		
 		orderTextFeed.setEditable(false);
 		leftOkCancel.setBounds(getX(),getY(),getWidth()/2,getHeight());
 		leftPanel.add(leftOkCancel);
 		
 		JPanel menu = new JPanel(new GridLayout(3,2));
 
-	    JButton CheesePizza = new JButton("Cheese Pizza");
-	    CheesePizza.addActionListener(new ActionListener() { 
+	    cheesePizza = new JButton("Cheese Pizza");
+	    cheesePizza.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e)
 	    	  { 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
@@ -284,8 +287,8 @@ public class myFrame extends JFrame {
 	    	  } 
 	     } );
 	    
-	    JButton PepPizza = new JButton("Pepperoni Pizza");
-	    PepPizza.addActionListener(new ActionListener() { 
+	    pepPizza = new JButton("Pepperoni Pizza");
+	    pepPizza.addActionListener(new ActionListener() { 
 	    	
 	    	public void actionPerformed(ActionEvent e) { 
 	
@@ -297,8 +300,8 @@ public class myFrame extends JFrame {
 	    		  } 
 	    		} );
 	    
-	    JButton Steak = new JButton("Steak");
-	    Steak.addActionListener(new ActionListener() { 
+	    steak = new JButton("Steak");
+	    steak.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e){ 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
@@ -307,8 +310,8 @@ public class myFrame extends JFrame {
 	    		  } 
 	    		} );
 	    
-	    JButton Burger = new JButton("Burger");
-	    Burger.addActionListener(new ActionListener() { 
+	    burger = new JButton("Burger");
+	    burger.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
@@ -317,8 +320,8 @@ public class myFrame extends JFrame {
 	    		  } 
 	    		} );
 	    
-	    JButton Fries = new JButton("Fries");
-	    Fries.addActionListener(new ActionListener() { 
+	    fries = new JButton("Fries");
+	    fries.addActionListener(new ActionListener() { 
 	    	  public void actionPerformed(ActionEvent e) { 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
@@ -327,8 +330,8 @@ public class myFrame extends JFrame {
 	    		  } 
 	    		} );
 	    
-	    JButton CBurger = new JButton("Cheese Burger");
-	    CBurger.addActionListener(new ActionListener() 
+	    cheeseburger = new JButton("Cheese Burger");
+	    cheeseburger.addActionListener(new ActionListener() 
 	    { 
 	    	  public void actionPerformed(ActionEvent e) 
 	    	  { 
@@ -340,7 +343,7 @@ public class myFrame extends JFrame {
 	    		} 
 	    } );
 	    
-	    JButton checkout = new JButton("Checkout");
+	    checkout = new JButton("Checkout");
 	    checkout.addActionListener(new ActionListener()
 	    {
 	    	public void actionPerformed(ActionEvent e)
@@ -358,10 +361,11 @@ public class myFrame extends JFrame {
 				
 				loadTextFeed.setText(loadTextFeed.getText() + "\n");
 	    		mainCardLayout.previous(cards);
+	    		toggleEnable();
 	    	}
 	    });
 	    
-	    JButton closeLoad = new JButton("Close load");
+	    closeLoad = new JButton("Close load");
 	    closeLoad.addActionListener(new ActionListener() 
 	    {
 			public void actionPerformed(ActionEvent e) 
@@ -370,7 +374,7 @@ public class myFrame extends JFrame {
 				Map map = new Map();
 				try 
 				{
-					data.getRoute(map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses()));
+					data.getRoute(map.calculateRoute(data.getLoad(currentLoadIndex()).getAddresses()));
 				} catch (AddressException e1) {
 					e1.printStackTrace();
 				} catch (MessagingException e1) {
@@ -383,19 +387,42 @@ public class myFrame extends JFrame {
 			}
 		});
 	    
-	    JButton empty = new JButton();
-	    
-	    menu.add(CheesePizza);
-	    menu.add(PepPizza);
-	    menu.add(CBurger);
-	    menu.add(Burger);
-	    menu.add(Fries);
-	    menu.add(Steak);
+	    empty = new JButton();
+	    toggleEnable();
+	    menu.add(cheesePizza);
+	    menu.add(pepPizza);
+	    menu.add(cheeseburger);
+	    menu.add(burger);
+	    menu.add(fries);
+	    menu.add(steak);
 	    menu.add(checkout);
 	    menu.add(empty);
 	    menu.add(closeLoad);
 	    
-	    JPanel infoSubmissionPanel = new JPanel();
+	    menuOutput.add(orderTextFeed);
+	    orderPanel.add(buildInfoSubmissionPanel(), "submission");
+	    orderPanel.add(menuOutput,"order details");
+	    rightPanel.add(buildMenuHostPanel(orderPanel, menu),"menu");
+		JPanel border = new JPanel(new BorderLayout());
+		border.add(leftPanel,BorderLayout.WEST);
+		border.add(rightPanel,BorderLayout.CENTER);
+		mainPanel.add(border,"menu");
+		mainPanel.add(new JPanel(),"blank");
+		
+		return mainPanel;
+	}
+	
+	private JPanel buildMenuHostPanel(JPanel orderPanel, JPanel menu)
+	{
+		menuHost.add(menu, BorderLayout.CENTER);
+	    menuHost.add(orderPanel,BorderLayout.EAST);
+	    
+	    return menuHost;
+	}
+	
+	private JPanel buildInfoSubmissionPanel()
+	{
+		JPanel infoSubmissionPanel = new JPanel();
 	    final JTextField nameField = new JTextField(10);
 	    final JTextField addressField = new JTextField(10);
 	    final JTextField phoneField = new JTextField(10);
@@ -416,11 +443,7 @@ public class myFrame extends JFrame {
 	    infoSubmissionPanel.add(phoneLabel);
 	    infoSubmissionPanel.add(phoneField);
 	    infoSubmissionPanel.add(submit);
-	    menuOutput.add(orderTextFeed);
-	    
-	    orderPanel.add(infoSubmissionPanel, "submission");
-	    orderPanel.add(menuOutput,"order details");
-	    
+	    	    
 	    submit.addActionListener(new ActionListener()
 	    {
 	    	public void actionPerformed(ActionEvent e)
@@ -429,7 +452,7 @@ public class myFrame extends JFrame {
 	    		name = nameField.getText();
 	    		
 	    		data.getLoad(data.getAllLoads().size() 
-	    				-1).getOrder(data.getLoad(data.getAllLoads().size()-1).getOrders().size()
+	    				-1).getOrder(data.getLoad(currentLoadIndex()).getOrders().size()
 	    						-1).setName(name);
 	    		
 	    		//System.out.println(name);
@@ -437,27 +460,33 @@ public class myFrame extends JFrame {
 	    		address = addressField.getText();
 	    		
 	    		data.getLoad(data.getAllLoads().size() 
-	    				-1).getOrder(data.getLoad(data.getAllLoads().size()-1).getOrders().size()
+	    				-1).getOrder(data.getLoad(currentLoadIndex()).getOrders().size()
 	    						-1).setName(address);
 	    		
 	    		//System.out.println(address);
 	    		
 	    		phone = phoneField.getText();
 	    		System.out.println(phone);
+	    		
+	    		toggleEnable();
 	    	}
 	    });
-
 	    
-	    menuHost.add(menu, BorderLayout.CENTER);
-	    menuHost.add(orderPanel,BorderLayout.EAST);
-	    rightPanel.add(menuHost,"menu");
-		JPanel border = new JPanel(new BorderLayout());
-		border.add(leftPanel,BorderLayout.WEST);
-		border.add(rightPanel,BorderLayout.CENTER);
-		mainPanel.add(border,"menu");
-		mainPanel.add(new JPanel(),"blank");
+	  return infoSubmissionPanel;
 		
-		return mainPanel;
+	}
+	
+	private void toggleEnable() 
+	{
+		burger.setEnabled(!burger.isEnabled());
+		cheeseburger.setEnabled(!cheeseburger.isEnabled());
+		fries.setEnabled(!fries.isEnabled());
+		checkout.setEnabled(!checkout.isEnabled());
+		closeLoad.setEnabled(!closeLoad.isEnabled());
+		steak.setEnabled(!steak.isEnabled());
+		pepPizza.setEnabled(!pepPizza.isEnabled());
+		cheesePizza.setEnabled(!cheesePizza.isEnabled());
+		empty.setEnabled(!empty.isEnabled());
 	}
 	
 	private void setLoadComplete(boolean e)
@@ -467,6 +496,16 @@ public class myFrame extends JFrame {
 	
 	public void setText(String s) {
 		text.setText(s);
+	}
+	
+	public Load getCurrentLoad()
+	{
+		return data.getLoad(data.getAllLoads().size() - 1);
+	}
+	
+	public int currentLoadIndex()
+	{
+		return data.getAllLoads().size() - 1;
 	}
 
 	public void showMenu() {
