@@ -115,7 +115,8 @@ public class myFrame extends JFrame {
 		panel.add(closeLoad, BorderLayout.EAST);
 		panel.add(loadTextFeed,BorderLayout.CENTER);
 		
-		closeLoad.addActionListener(new ActionListener() {
+		closeLoad.addActionListener(new ActionListener()
+		{
 			public void actionPerformed(ActionEvent e)
 			{
 				Map map = new Map();
@@ -138,15 +139,14 @@ public class myFrame extends JFrame {
 				data.getLoad(currentLoadIndex()).addOrder(new Order("233 Slawson Drive"));	//getData().getAllLoads().size() -1
 				if(data.getAllLoads().size() > 0)
 				{
-					int loadIndex = data.getAllLoads().size() - 1;
-					int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
+					//int loadIndex = data.getAllLoads().size() - 1;
+					//int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 					
 					loadTextFeed.setText(loadTextFeed.getText() 
-							+ "\tOrder # " + data.getLoad(data.getAllLoads().size() - 1).getOrders().size() + "\n\t\t");
+							+ "\tOrder # " + (currentOrderIndex() + 1) + "\n\t\t");
 				}
-				orderTextFeed.setText("Order # " + data.getLoad(data.getAllLoads().size() - 1).getOrders().size() 
-						+ "\t\t");
-				orderTextFeed.setForeground(Color.RED);
+				orderTextFeed.setText("Order # " + (currentOrderIndex() + 1) + "\t\t");
+				orderTextFeed.setForeground(Color.BLACK);
 				mainCardLayout.next(cards);
 				orderCardLayout.show(orderPanel, "submission");
 			}
@@ -159,7 +159,6 @@ public class myFrame extends JFrame {
 	{
 		JPanel panel = openNewPanel();
 		
-		
 		orderTextFeed.setEditable(false);
 		leftOkCancel.setBounds(getX(),getY(),getWidth()/2,getHeight());
 		leftPanel.add(leftOkCancel);
@@ -167,14 +166,15 @@ public class myFrame extends JFrame {
 		JPanel menu = new JPanel(new GridLayout(3,2));
 
 	    cheesePizza = new JButton("Cheese Pizza");
-	    cheesePizza.addActionListener(new ActionListener() { 
+	    cheesePizza.addActionListener(new ActionListener()
+	    { 
 	    	  public void actionPerformed(ActionEvent e)
 	    	  { 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Cheese Pizza"));
-	    		  orderTextFeed.setText(orderTextFeed.getText()+"\nCheese Pizza");
+	    		  orderTextFeed.setText(orderTextFeed.getText()+"\n    Cheese Pizza");
 	    	  } 
 	     } );
 	    
@@ -187,19 +187,21 @@ public class myFrame extends JFrame {
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Pepperoni Pizza"));
-	    		    orderTextFeed.setText(orderTextFeed.getText()+"\nPepperoni Pizza");
+	    		    orderTextFeed.setText(orderTextFeed.getText()+"\n    Pepperoni Pizza");
 	    		  } 
 	    		} );
 	    
 	    steak = new JButton("Steak");
-	    steak.addActionListener(new ActionListener() { 
-	    	  public void actionPerformed(ActionEvent e){ 
+	    steak.addActionListener(new ActionListener() 
+	    { 
+	    	  public void actionPerformed(ActionEvent e)
+	    	  { 
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Steak"));
-	    		    orderTextFeed.setText(orderTextFeed.getText()+"\nSteak");
-	    		  } 
-	    		} );
+	    		    orderTextFeed.setText(orderTextFeed.getText()+"\n    Steak");
+	    	  } 
+	    } );
 	    
 	    burger = new JButton("Burger");
 	    burger.addActionListener(new ActionListener() { 
@@ -207,7 +209,7 @@ public class myFrame extends JFrame {
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Burger"));
-	    		    orderTextFeed.setText(orderTextFeed.getText()+"\nBurger");
+	    		    orderTextFeed.setText(orderTextFeed.getText()+"\n    Burger");
 	    		  } 
 	    		} );
 	    
@@ -217,7 +219,7 @@ public class myFrame extends JFrame {
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Fries"));
-	    		  orderTextFeed.setText(orderTextFeed.getText()+"\nFries");
+	    		  orderTextFeed.setText(orderTextFeed.getText()+"\n    Fries");
 	    		  } 
 	    		} );
 	    
@@ -230,7 +232,7 @@ public class myFrame extends JFrame {
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 
 	    		  data.getLoad(loadIndex).getOrder(orderIndex).addItem(new Item("Cheese Burger"));
-	    		    orderTextFeed.setText(orderTextFeed.getText()+"\nCheese Burger");
+	    		    orderTextFeed.setText(orderTextFeed.getText()+"\n    Cheese Burger");
 	    		} 
 	    } );
 	    
@@ -240,13 +242,13 @@ public class myFrame extends JFrame {
 	    	public void actionPerformed(ActionEvent e)
 	    	{
 
-				if(data.getLoad(data.getAllLoads().size() - 1).getOrders().size() > -1)
+				if(currentOrderIndex() > -1)
 				{
 					for(int i = 0; i < data.getLoad(currentLoadIndex()).getOrder(currentOrderIndex()).getNumberOfItems(); i++)
 	    			{		
-						loadTextFeed.setText(loadTextFeed.getText()
-								+ data.getLoad(data.getAllLoads().size() - 1).getOrder(data.getLoad(data.getAllLoads().size() 
-										- 1).getOrders().size() - 1).getItem(i).getFoodName() + "\n\t\t");
+						loadTextFeed.setText(loadTextFeed.getText() + "- " 
+								+ data.getLoad(currentLoadIndex()).getOrder(currentOrderIndex())
+								.getItem(i).getFoodName() + "\n\t\t");
 	    			}
 				}
 				
@@ -277,6 +279,7 @@ public class myFrame extends JFrame {
 	    
 	    empty = new JButton();
 	    toggleEnable();
+	    
 	    menu.add(cheesePizza);
 	    menu.add(pepPizza);
 	    menu.add(cheeseburger);
@@ -343,19 +346,16 @@ public class myFrame extends JFrame {
 	    				-1).getOrder(data.getLoad(currentLoadIndex()).getOrders().size()
 	    						-1).setName(name);
 	    		
-	    		//System.out.println(name);
-	    		
 	    		address = addressField.getText();
 	    		
 	    		data.getLoad(data.getAllLoads().size() 
 	    				-1).getOrder(data.getLoad(currentLoadIndex()).getOrders().size()
-	    						-1).setName(address);
-	    		
-	    		//System.out.println(address);
+	    						-1).setAddress(address);
 	    		
 	    		phone = phoneField.getText();
-	    		System.out.println(phone);
-	    		
+	    		data.getLoad(data.getAllLoads().size() 
+	    				-1).getOrder(data.getLoad(currentLoadIndex()).getOrders().size()
+	    						-1).setTelephoneNumber(phone);	    		
 	    		toggleEnable();
 	    	}
 	    });

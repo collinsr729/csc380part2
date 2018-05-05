@@ -152,6 +152,11 @@ public class Order {
 		return address;
 	}
 	
+	public void setTelephoneNumber(String number)
+	{
+		telephoneNumber = number;
+	}
+	
 	public String getTelephoneNumber()
 	{
 		return telephoneNumber;

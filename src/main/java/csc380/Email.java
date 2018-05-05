@@ -33,7 +33,7 @@ public class Email
 		mailServerProperties.put("mail.smtp.starttls.enable", "true");
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 		generateMailMessage = new MimeMessage(getMailSession);
-		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("csc380receiptreceiver@gmail.com")); //password to receipt receiver is
+		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("3157298131@vtext.com")); //password to receipt receiver is
 		generateMailMessage.setSubject("Receipt Details for Load " + loadNumber);											// !1@2#3$4abc
 		emailBody = formatReceiptForEmail(addresses, orders);
 		generateMailMessage.setContent(emailBody, "text/html");
@@ -52,6 +52,8 @@ public class Email
 		for(int i = 0; i < addresses.size(); i++)
 		{
 			receipt += "<span style=\"font-weight:bold\">Order " + (i + 1) + "- " + addresses.get(i) + "</span><br>";
+			receipt += "<pre>" + orders.getOrder(i).getName() + "\n</pre>";
+			receipt += "<pre>" + orders.getOrder(i).getTelephoneNumber() + "\n</pre>";
 			receipt += "<i><font color = red><span style=\"font-weight:bold\"><pre>\tDetails: \n</pre></span></font></i>";
 			
 			for(int j = 0; j < orders.getOrder(i).getNumberOfItems(); j++)
