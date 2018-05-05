@@ -29,7 +29,8 @@ public class myFrame extends JFrame {
 	boolean buttonPressed = false;
 	boolean loadOpened;
 	boolean loadComplete;
-	JPanel leftOkCancel,menuOutput,menuHost,leftPanel,rightPanel, mainPanel;
+	JPanel leftOkCancel, menuOutput, menuHost, leftPanel, rightPanel;
+	JPanel mainPanel;
 	CardLayout mainCardLayout = new CardLayout();
 	CardLayout orderCardLayout = new CardLayout();
 	CardLayout main = new CardLayout();
@@ -52,114 +53,6 @@ public class myFrame extends JFrame {
 		menuHost = new JPanel(new BorderLayout());
 	    menuOutput = new JPanel();
 		mainPanel = new JPanel(main);
-
-//		
-//		confirm = new JButton("Ok");
-//		deny = new JButton("Cancel");
-//
-//		text = new JTextPane();
-//		text.setEditable(false);
-//		textBox = new JTextPane();
-//		textBox.setEditable(true);
-//		textFeed = new JTextPane();
-//		textFeed.setEditable(false);
-//		text.setText("Just setting up...");
-//		
-//		
-//		confirm.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				bool = true;
-//				buttonPressed = true;
-//			}
-//		});
-//		deny.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				bool = false;
-//				buttonPressed = true;
-//			}
-//		});
-//		
-//		leftOkCancel = new JPanel(new BorderLayout());		//Borderlayout to put buttons below text
-//		leftOkCancel.setBounds(getX(),getY(),getWidth()/2,getHeight());
-//		leftOkCancel.add(text, BorderLayout.NORTH);
-//		leftPanel = new JPanel(left);	//Card layout to have multiple variations on the left side
-//		JPanel buttonPanel = new JPanel();
-//		buttonPanel.add(confirm);
-//		buttonPanel.add(deny);
-//		leftOkCancel.add(buttonPanel, BorderLayout.SOUTH);
-//		leftPanel.add(leftOkCancel);
-//		
-//		rightPanel = new JPanel(right);
-//		menuHost = new JPanel(new BorderLayout());
-//		JPanel menu = new JPanel(new GridLayout(3,2));
-////		menu.setSize(getWidth()/3, getHeight());
-//	    JButton CheesePizza = new JButton("Cheese Pizza");
-//	    CheesePizza.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e){ 
-//	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
-//	    		  } 
-//	    		} );
-//	    JButton PepPizza = new JButton("Pepperoni Pizza");
-//	    PepPizza.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e) { 
-//	    		    textFeed.setText(textFeed.getText()+"\nPepperoni Pizza");
-//	    		  } 
-//	    		} );
-//	    JButton Steak = new JButton("Steak");
-//	    Steak.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e){ 
-//	    		    textFeed.setText(textFeed.getText()+"\nSteak");
-//	    		  } 
-//	    		} );
-//	    JButton Burger = new JButton("Burger");
-//	    Burger.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e) { 
-//	    		    textFeed.setText(textFeed.getText()+"\nBurger");
-//	    		  } 
-//	    		} );
-//	    JButton Fries = new JButton("Fries");
-//	    Fries.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e) { 
-//	    		    textFeed.setText(textFeed.getText()+"\nFries");
-//	    		  } 
-//	    		} );
-//	    JButton CBurger = new JButton("Cheese Burger");
-//	    CBurger.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e) { 
-//	    		    textFeed.setText(textFeed.getText()+"\nCheese Burger");
-//	    		  } 
-//	    		} );
-//	    
-//	    JButton Checkout = new JButton("Checkout");
-//	    Checkout.addActionListener(new ActionListener() { 
-//	    	  public void actionPerformed(ActionEvent e) { 
-//	    		    textFeed.setText(textFeed.getText()+"\nScrew you i dont work");
-//	    		    ///////// NEED TO INSPECT textFeed here - create a order
-//	    		    showMenuOut();
-//	    		  } 
-//	    		} );
-//	    menu.add(CheesePizza);
-//	    menu.add(PepPizza);
-//	    menu.add(CBurger);
-//	    menu.add(Burger);
-//	    menu.add(Fries);
-//	    menu.add(Steak);
-//	    menu.add(Checkout);
-//	    menuHost.add(menu, BorderLayout.CENTER);
-//	    menuOutput = new JPanel();
-//	    menuOutput.add(textFeed);
-//	    menuHost.add(menuOutput,BorderLayout.EAST);
-//	    rightPanel.add(menuHost,"menu");
-//		mainPanel = new JPanel(main);
-//		JPanel border = new JPanel(new BorderLayout());
-//		border.add(leftPanel,BorderLayout.WEST);
-//		border.add(rightPanel,BorderLayout.CENTER);
-//		//mainPanel.add(statupPanel(), "start");
-//		mainPanel.add(border,"menu");
-//		mainPanel.add(new JPanel(),"blank");
-//		add(mainPanel);
-////		pack();
-	
 	}
 	
 	public void openFrame()
@@ -194,7 +87,7 @@ public class myFrame extends JFrame {
 			{
 				getData().addLoad(new Load());				
 				mainCardLayout.next(cards);
-				loadTextFeed.setText("LOAD " + getData().getAllLoads().size() + " DETAILS \n");
+				loadTextFeed.setText("LOAD " + (currentLoadIndex() + 1) + " DETAILS \n"); //getData().getAllLoads().size()
 				loadTextFeed.setFont(new Font("Calibri", Font.BOLD, 15));
 			}
 		});
@@ -227,12 +120,10 @@ public class myFrame extends JFrame {
 			{
 				Map map = new Map();
 				try {
-					data.getRoute(map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses()));
+					data.getRoute(map.calculateRoute(data.getLoad(currentLoadIndex()).getAddresses()));	//data.getAllLoads().size() - 1
 				} catch (AddressException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (MessagingException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				setLoadComplete(true);
@@ -244,7 +135,7 @@ public class myFrame extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				getData().getLoad(getData().getAllLoads().size() -1).addOrder(new Order("233 Slawson Drive, Camillus"));
+				data.getLoad(currentLoadIndex()).addOrder(new Order("233 Slawson Drive"));	//getData().getAllLoads().size() -1
 				if(data.getAllLoads().size() > 0)
 				{
 					int loadIndex = data.getAllLoads().size() - 1;
@@ -288,10 +179,10 @@ public class myFrame extends JFrame {
 	     } );
 	    
 	    pepPizza = new JButton("Pepperoni Pizza");
-	    pepPizza.addActionListener(new ActionListener() { 
-	    	
-	    	public void actionPerformed(ActionEvent e) { 
-	
+	    pepPizza.addActionListener(new ActionListener() 
+	    { 
+	    	public void actionPerformed(ActionEvent e) 
+	    	{ 	
 	    		  int loadIndex = data.getAllLoads().size() - 1;
 	    		  int orderIndex = data.getLoad(loadIndex).getOrders().size() - 1;
 
@@ -351,7 +242,7 @@ public class myFrame extends JFrame {
 
 				if(data.getLoad(data.getAllLoads().size() - 1).getOrders().size() > -1)
 				{
-					for(int i = 0; i < data.getLoad(data.getAllLoads().size() - 1).getOrders().size() - 1; i++)
+					for(int i = 0; i < data.getLoad(currentLoadIndex()).getOrder(currentOrderIndex()).getNumberOfItems(); i++)
 	    			{		
 						loadTextFeed.setText(loadTextFeed.getText()
 								+ data.getLoad(data.getAllLoads().size() - 1).getOrder(data.getLoad(data.getAllLoads().size() 
@@ -380,9 +271,6 @@ public class myFrame extends JFrame {
 				} catch (MessagingException e1) {
 					e1.printStackTrace();
 				}
-				setLoadComplete(true);
-				mainCardLayout.previous(cards);
-
 				mainCardLayout.first(cards);
 			}
 		});
@@ -507,6 +395,11 @@ public class myFrame extends JFrame {
 	{
 		return data.getAllLoads().size() - 1;
 	}
+	
+	public int currentOrderIndex()
+	{
+		return data.getLoad(currentLoadIndex()).getOrders().size() - 1;
+	}
 
 	public void showMenu() {
 		main.show(mainPanel, "menu");
@@ -531,6 +424,116 @@ public class myFrame extends JFrame {
 	public Load getLoad(int i)
 	{
 		return data.getLoad(i);
+	}
+	
+	private void extraCode()
+	{
+//		
+//		confirm = new JButton("Ok");
+//		deny = new JButton("Cancel");
+//
+//		text = new JTextPane();
+//		text.setEditable(false);
+//		textBox = new JTextPane();
+//		textBox.setEditable(true);
+//		textFeed = new JTextPane();
+//		textFeed.setEditable(false);
+//		text.setText("Just setting up...");
+//		
+//		
+//		confirm.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				bool = true;
+//				buttonPressed = true;
+//			}
+//		});
+//		deny.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				bool = false;
+//				buttonPressed = true;
+//			}
+//		});
+//		
+//		leftOkCancel = new JPanel(new BorderLayout());		//Borderlayout to put buttons below text
+//		leftOkCancel.setBounds(getX(),getY(),getWidth()/2,getHeight());
+//		leftOkCancel.add(text, BorderLayout.NORTH);
+//		leftPanel = new JPanel(left);	//Card layout to have multiple variations on the left side
+//		JPanel buttonPanel = new JPanel();
+//		buttonPanel.add(confirm);
+//		buttonPanel.add(deny);
+//		leftOkCancel.add(buttonPanel, BorderLayout.SOUTH);
+//		leftPanel.add(leftOkCancel);
+//		
+//		rightPanel = new JPanel(right);
+//		menuHost = new JPanel(new BorderLayout());
+//		JPanel menu = new JPanel(new GridLayout(3,2));
+////		menu.setSize(getWidth()/3, getHeight());
+//	    JButton CheesePizza = new JButton("Cheese Pizza");
+//	    CheesePizza.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e){ 
+//	    		    textFeed.setText(textFeed.getText()+"\nCheese Pizza");
+//	    		  } 
+//	    		} );
+//	    JButton PepPizza = new JButton("Pepperoni Pizza");
+//	    PepPizza.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e) { 
+//	    		    textFeed.setText(textFeed.getText()+"\nPepperoni Pizza");
+//	    		  } 
+//	    		} );
+//	    JButton Steak = new JButton("Steak");
+//	    Steak.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e){ 
+//	    		    textFeed.setText(textFeed.getText()+"\nSteak");
+//	    		  } 
+//	    		} );
+//	    JButton Burger = new JButton("Burger");
+//	    Burger.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e) { 
+//	    		    textFeed.setText(textFeed.getText()+"\nBurger");
+//	    		  } 
+//	    		} );
+//	    JButton Fries = new JButton("Fries");
+//	    Fries.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e) { 
+//	    		    textFeed.setText(textFeed.getText()+"\nFries");
+//	    		  } 
+//	    		} );
+//	    JButton CBurger = new JButton("Cheese Burger");
+//	    CBurger.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e) { 
+//	    		    textFeed.setText(textFeed.getText()+"\nCheese Burger");
+//	    		  } 
+//	    		} );
+//	    
+//	    JButton Checkout = new JButton("Checkout");
+//	    Checkout.addActionListener(new ActionListener() { 
+//	    	  public void actionPerformed(ActionEvent e) { 
+//	    		    textFeed.setText(textFeed.getText()+"\nScrew you i dont work");
+//	    		    ///////// NEED TO INSPECT textFeed here - create a order
+//	    		    showMenuOut();
+//	    		  } 
+//	    		} );
+//	    menu.add(CheesePizza);
+//	    menu.add(PepPizza);
+//	    menu.add(CBurger);
+//	    menu.add(Burger);
+//	    menu.add(Fries);
+//	    menu.add(Steak);
+//	    menu.add(Checkout);
+//	    menuHost.add(menu, BorderLayout.CENTER);
+//	    menuOutput = new JPanel();
+//	    menuOutput.add(textFeed);
+//	    menuHost.add(menuOutput,BorderLayout.EAST);
+//	    rightPanel.add(menuHost,"menu");
+//		mainPanel = new JPanel(main);
+//		JPanel border = new JPanel(new BorderLayout());
+//		border.add(leftPanel,BorderLayout.WEST);
+//		border.add(rightPanel,BorderLayout.CENTER);
+//		//mainPanel.add(statupPanel(), "start");
+//		mainPanel.add(border,"menu");
+//		mainPanel.add(new JPanel(),"blank");
+//		add(mainPanel);
+////		pack();
 	}
 
 }
