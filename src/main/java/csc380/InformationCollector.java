@@ -27,13 +27,11 @@ public class InformationCollector {
 	public void addLoad (Load newLoad){
 		
 		allLoads.add(newLoad);
-		System.out.println("New load opened: " + allLoads.size());
 	}
 	
 	public void addOrder(Order newOrder){
 		
 		allLoads.get(allLoads.size()).addOrder(newOrder);
-		System.out.println("New order started: " + getLoad(allLoads.size()).getOrders().size());
 	}
 	
 	public void addItem(String newItem){

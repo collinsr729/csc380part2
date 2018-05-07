@@ -40,7 +40,7 @@ public class myFrame extends JFrame {
 		orderTextFeed = new JTextPane();
 		loadTextFeed = new JTextPane();
 		leftOkCancel = new JPanel(new BorderLayout());		//Borderlayout to put buttons below text
-		leftPanel = new JPanel(mainCardLayout);	//Card layout to have multiple variations on the left side
+		leftPanel = new JPanel(mainCardLayout);				//Card layout to have multiple variations on the left side
 		rightPanel = new JPanel(orderCardLayout);
 		orderPanel = new JPanel(orderCardLayout);
 		menuHost = new JPanel(new BorderLayout());
@@ -128,7 +128,7 @@ public class myFrame extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				data.getLoad(currentLoadIndex()).addOrder(new Order("233 Slawson Drive"));	//getData().getAllLoads().size() -1
+				data.getLoad(currentLoadIndex()).addOrder(new Order(""));	//getData().getAllLoads().size() -1
 				if(data.getAllLoads().size() > 0)
 				{
 					loadTextFeed.setText(loadTextFeed.getText() 

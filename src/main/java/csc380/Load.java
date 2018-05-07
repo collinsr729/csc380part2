@@ -14,7 +14,6 @@ public class Load {
 	public void addOrder(Order newOrder)
 	{
 		orders.add(newOrder);
-		System.out.println("new order created: " + orders.size());
 	}
 	
 	public ArrayList<String> getAddresses()
