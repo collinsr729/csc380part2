@@ -12,16 +12,7 @@ public class Main {
 		
 		myFrame frame = new myFrame();
 		frame.openFrame();
-		Map map = new Map();
 		frame.setAutoRequestFocus(true);
-		
-		InformationCollector data = frame.getData();
-		
-		if(frame.loadComplete)
-		{
-			System.out.println("Entered");
-			map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses());
-			System.out.println("Success");
-		}
+	
 	}// end main
 }// end Main

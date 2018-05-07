@@ -21,29 +21,22 @@ import javax.swing.JTextPane;
 public class myFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-	InformationCollector data;
-	JTextPane text, textBox, orderTextFeed, loadTextFeed;
-	JButton confirm, deny;
-	JButton steak, cheeseburger, burger, pepPizza, cheesePizza, fries, checkout, closeLoad, empty;
-	boolean bool = true;
-	boolean buttonPressed = false;
-	boolean loadOpened;
-	boolean loadComplete;
-	JPanel leftOkCancel, menuOutput, menuHost, leftPanel, rightPanel;
-	JPanel mainPanel;
-	CardLayout mainCardLayout = new CardLayout();
-	CardLayout orderCardLayout = new CardLayout();
-	CardLayout main = new CardLayout();
-	JPanel cards;
-	JPanel orderPanel;
-	String name, address, phone;
+	private InformationCollector data;
+	private JTextPane text, textBox, orderTextFeed, loadTextFeed;
+	private	JButton steak, cheeseburger, burger, pepPizza, cheesePizza, fries, checkout, closeLoad, empty;
+	private JPanel leftOkCancel, menuOutput, menuHost, leftPanel, rightPanel;
+	private JPanel mainPanel;
+	private CardLayout mainCardLayout = new CardLayout();
+	private CardLayout orderCardLayout = new CardLayout();
+	private CardLayout main = new CardLayout();
+	private JPanel cards, orderPanel;
+	private String name, address, phone;
 	
 	public myFrame() 
 	{
 		super("Campus Delivery");
 		cards = new JPanel(mainCardLayout);
 		data = new InformationCollector();
-		loadOpened = false;
 		orderTextFeed = new JTextPane();
 		loadTextFeed = new JTextPane();
 		leftOkCancel = new JPanel(new BorderLayout());		//Borderlayout to put buttons below text
@@ -127,7 +120,6 @@ public class myFrame extends JFrame {
 				} catch (MessagingException e1) {
 					e1.printStackTrace();
 				}
-				setLoadComplete(true);
 				mainCardLayout.previous(cards);
 			}
 		});
@@ -147,8 +139,6 @@ public class myFrame extends JFrame {
 				mainCardLayout.next(cards);
 				orderPanel.add(buildInfoSubmissionPanel(), "submission");
 				orderCardLayout.show(orderPanel, "submission");
-				
-				
 			}
 		});
 		
@@ -363,11 +353,6 @@ public class myFrame extends JFrame {
 		empty.setEnabled(!empty.isEnabled());
 	}
 	
-	private void setLoadComplete(boolean e)
-	{
-		loadComplete = e;
-	}
-	
 	public void setText(String s) {
 		text.setText(s);
 	}
@@ -385,16 +370,6 @@ public class myFrame extends JFrame {
 	public int currentOrderIndex()
 	{
 		return data.getLoad(currentLoadIndex()).getOrders().size() - 1;
-	}
-
-	public void showMenu() {
-		main.show(mainPanel, "menu");
-	}
-	public void showStart() {
-		main.show(mainPanel, "start");
-	}
-	public void showMenuOut() {
-		main.show(mainPanel, "blank");
 	}
 	
 	public InformationCollector getData() 
