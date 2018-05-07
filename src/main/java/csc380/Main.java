@@ -1,5 +1,6 @@
 package csc380;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;

@@ -35,6 +35,7 @@ public class Email
 		generateMailMessage = new MimeMessage(getMailSession);
 		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("csc380receiptreceiver@gmail.com")); //password to receipt receiver is
 		generateMailMessage.setSubject("Receipt Details for Load " + loadNumber);											// !1@2#3$4abc
+		
 		emailBody = formatReceiptForEmail(addresses, orders);
 		generateMailMessage.setContent(emailBody, "text/html");
  
@@ -45,20 +46,21 @@ public class Email
 		transport.close();
 	}
 
-	public String formatReceiptForEmail(ArrayList<String> addresses, Load orders)
+	public String formatReceiptForEmail(ArrayList<String> sortedAddresses, Load orders)
 	{
 		String receipt = "";
 		
-		for(int i = 0; i < addresses.size(); i++)
+		for(int i = 0; i < sortedAddresses.size(); i++)
 		{
-			receipt += "<span style=\"font-weight:bold\">Order " + (i + 1) + "- " + addresses.get(i) + "</span><br>";
-			receipt += "<pre>" + orders.getOrder(i).getName() + "\n</pre>";
-			receipt += "<pre>" + orders.getOrder(i).getTelephoneNumber() + "\n</pre>";
+			receipt += "<span style=\"font-weight:bold\">Delivery " + (i + 1) + "- " + sortedAddresses.get(i) + "</span><br>";
 			receipt += "<i><font color = red><span style=\"font-weight:bold\"><pre>\tDetails: \n</pre></span></font></i>";
-			
-			for(int j = 0; j < orders.getOrder(i).getNumberOfItems(); j++)
-			{
-				receipt += "<pre>\t\t"+ orders.getOrder(i).getItem(j).getFoodName() + "\n</pre><br>";
+			for (Order o : orders.getOrders()) {
+				if(o.getAddress() == sortedAddresses.get(i))
+					receipt += "<pre>" + o.getName() + "\n</pre>";
+					receipt += "<pre>" + o.getTelephoneNumber() + "\n</pre>";
+					for(Item it : o.getItems()) {
+						receipt += "<pre>\t\t"+ it.getFoodName() + "\n</pre><br>";
+					}
 			}
 		}
 						

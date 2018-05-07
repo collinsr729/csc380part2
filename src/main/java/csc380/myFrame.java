@@ -112,9 +112,9 @@ public class myFrame extends JFrame {
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-				Map map = new Map();
 				try {
-					data.getRoute(map.calculateRoute(data.getLoad(currentLoadIndex()).getAddresses()));	//data.getAllLoads().size() - 1
+					data.getRoute(data.getLoad(currentLoadIndex()).getAddresses());	//data.getAllLoads().size() - 1
+					mainCardLayout.previous(cards);
 				} catch (AddressException e1) {
 					e1.printStackTrace();
 				} catch (MessagingException e1) {
