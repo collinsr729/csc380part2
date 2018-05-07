@@ -46,10 +46,5 @@ public class Load {
 		return orders.get(index);
 	}
 	
-	public int getOrderSize()
-	{
-		return orders.size();
-	}
-	
 
 }

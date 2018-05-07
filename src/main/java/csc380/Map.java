@@ -1,10 +1,8 @@
 package csc380;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.maps.DirectionsApi.RouteRestriction;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.DistanceMatrixApiRequest;
 import com.google.maps.GeoApiContext;
@@ -96,8 +94,6 @@ public class Map {
 
 	}
 	
-	String js = new String();
-	
 	public boolean checkValidAddress(String address) {
 		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
 		DistanceMatrix trix = null;
@@ -116,35 +112,9 @@ public class Map {
 
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		String distance = gson.toJson(trix);
-		js = distance;
 		distance = distance.substring(distance.indexOf("STATUS")+10);
 		distance = distance.substring(0,distance.indexOf(","));
 		return distance.equalsIgnoreCase("NOT_FOUND");
-	}
-
-	private long getTimeTo(String home, String address) 
-	{ // Finds inMeters value from outputGeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
-		DistanceMatrix trix = null;
-		//System.out.println("DistanceCall: " + address);
-		GeoApiContext context = new GeoApiContext.Builder().apiKey(vars.GEO_API_KEY).build();
-		try {
-			DistanceMatrixApiRequest req = DistanceMatrixApi.newRequest(context);
-			trix = req.origins(home)
-					.destinations(address)
-					.mode(TravelMode.DRIVING)
-					.language("en-EN").await();
-		} catch (ApiException e) {
-			System.out.println(e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String distance = gson.toJson(trix);
-		System.out.println(distance);
-		distance = distance.substring(distance.indexOf("\"inSeconds\"") + 13);
-		return Long.parseLong(distance.substring(0, distance.indexOf(",")));
-
 	}
 
 	public Double convertMetersToMiles(long distance) 

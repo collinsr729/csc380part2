@@ -50,7 +50,7 @@ public class InformationCollector {
 	
 	public int getOrderSize()
 	{
-		return getLoad(allLoads.size()).getOrderSize();
+		return getLoad(allLoads.size()).getSize();
 	}
 
 }
