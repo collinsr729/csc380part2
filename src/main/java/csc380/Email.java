@@ -33,7 +33,7 @@ public class Email
 		mailServerProperties.put("mail.smtp.starttls.enable", "true");
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 		generateMailMessage = new MimeMessage(getMailSession);
-		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("3157298131@vtext.com")); //password to receipt receiver is
+		generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress("csc380receiptreceiver@gmail.com")); //password to receipt receiver is
 		generateMailMessage.setSubject("Receipt Details for Load " + loadNumber);											// !1@2#3$4abc
 		emailBody = formatReceiptForEmail(addresses, orders);
 		generateMailMessage.setContent(emailBody, "text/html");

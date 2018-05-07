@@ -148,7 +148,10 @@ public class myFrame extends JFrame {
 				orderTextFeed.setText("Order # " + (currentOrderIndex() + 1) + "\t\t");
 				orderTextFeed.setForeground(Color.BLACK);
 				mainCardLayout.next(cards);
+				orderPanel.add(buildInfoSubmissionPanel(), "submission");
 				orderCardLayout.show(orderPanel, "submission");
+				
+				
 			}
 		});
 		
@@ -291,7 +294,7 @@ public class myFrame extends JFrame {
 	    menu.add(closeLoad);
 	    
 	    menuOutput.add(orderTextFeed);
-	    orderPanel.add(buildInfoSubmissionPanel(), "submission");
+	    
 	    orderPanel.add(menuOutput,"order details");
 	    rightPanel.add(buildMenuHostPanel(orderPanel, menu),"menu");
 		JPanel border = new JPanel(new BorderLayout());
