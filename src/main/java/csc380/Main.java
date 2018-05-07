@@ -1,5 +1,6 @@
 package csc380;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -12,15 +13,15 @@ public class Main {
 		
 		myFrame frame = new myFrame();
 		frame.openFrame();
-		Map map = new Map();
 		frame.setAutoRequestFocus(true);
 		
 		InformationCollector data = frame.getData();
 		
 		if(frame.loadComplete)
 		{
+			data = frame.getData();
 			System.out.println("Entered");
-			map.calculateRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses());
+			data.getRoute(data.getLoad(data.getAllLoads().size() - 1).getAddresses());
 			System.out.println("Success");
 		}
 	}// end main
