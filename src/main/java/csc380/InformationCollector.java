@@ -15,10 +15,13 @@ public class InformationCollector {
 		
 	}
 	
-	public void getRoute(ArrayList<String> sortedAddresses) throws AddressException, MessagingException
+	public void getRoute(ArrayList<String> unsortedAddresses) throws AddressException, MessagingException
 	{
+		
 		Email email = new Email();
-		email.sendEmail(sortedAddresses, allLoads.get(allLoads.size() - 1), allLoads.size());
+		Map m = new Map();
+		ArrayList<String> adds = m.calculateRoute(unsortedAddresses);
+		email.sendEmail(adds, allLoads.get(allLoads.size() - 1), allLoads.size());
 	}
 	
 	public void addLoad (Load newLoad){
@@ -50,7 +53,7 @@ public class InformationCollector {
 	
 	public int getOrderSize()
 	{
-		return getLoad(allLoads.size()).getSize();
+		return getLoad(allLoads.size()-1).getSize();
 	}
 
 }

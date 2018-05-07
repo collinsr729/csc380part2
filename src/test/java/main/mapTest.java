@@ -8,13 +8,6 @@ import org.junit.Test;
 import csc380.Map;
 
 public class mapTest {
-
-	//@Test
-	//public void testConvertMetersToMiles() 
-	//{
-	//	Map map = new Map();
-	//	assertEquals();
-	//}
 	
 	@Test
 	public void testCheckIfInBoundsTrue()
@@ -29,7 +22,7 @@ public class mapTest {
 	{
 		Map map = new Map();
 		
-		assertFalse(map.checkIfInBounds(5*1610)); //5+ miles
+		assertFalse(map.checkIfInBounds(50*1610)); //50+ miles
 	}
 	
 	@Test
@@ -44,7 +37,7 @@ public class mapTest {
 	public void testFindClosest()
 	{
 		Map map = new Map();
-		ArrayList<String> testAddresses = new ArrayList();
+		ArrayList<String> testAddresses = new ArrayList<String>();
 		
 		testAddresses.add("233 Slawson Drive");
 		testAddresses.add("302 Second Street, Solvay");
@@ -64,8 +57,8 @@ public class mapTest {
 	public void testCalculateRoute()
 	{
 		Map map = new Map();
-		ArrayList<String> testList = new ArrayList();
-		ArrayList<String> addressList = new ArrayList();
+		ArrayList<String> testList = new ArrayList<String>();
+		ArrayList<String> addressList = new ArrayList<String>();
 		
 		testList.add("302 Second Street, Solvay");
 		testList.add("233 Slawson Drive");

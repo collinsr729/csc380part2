@@ -56,7 +56,6 @@ public class Order {
 	public void setAddress(String destAddress)
 	{
 		address = destAddress;
-		System.out.println(address);
 	}
 	
 	public String getAddress()
@@ -87,6 +86,11 @@ public class Order {
 	public int getNumberOfItems()
 	{
 		return items.size();
+	}
+	
+	public ArrayList<Item> getItems()
+	{
+		return items;
 	}
 	
 	
