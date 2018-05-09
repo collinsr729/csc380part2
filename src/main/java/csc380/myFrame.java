@@ -120,7 +120,7 @@ public class myFrame extends JFrame {
 				} catch (MessagingException e1) {
 					e1.printStackTrace();
 				}
-				mainCardLayout.previous(cards);
+				mainCardLayout.first(cards);
 			}
 		});
 		
@@ -136,9 +136,11 @@ public class myFrame extends JFrame {
 				}
 				orderTextFeed.setText("Order # " + (currentOrderIndex() + 1) + "\t\t");
 				orderTextFeed.setForeground(Color.BLACK);
+				toggleEnable();
 				mainCardLayout.next(cards);
 				orderPanel.add(buildInfoSubmissionPanel(), "submission");
 				orderCardLayout.show(orderPanel, "submission");
+				
 			}
 		});
 		
@@ -229,8 +231,7 @@ public class myFrame extends JFrame {
 				}
 				
 				loadTextFeed.setText(loadTextFeed.getText() + "\n");
-	    		mainCardLayout.previous(cards);
-	    		toggleEnable();
+	    		mainCardLayout.show(cards, "Load details");
 	    	}
 	    });
 	    
@@ -254,7 +255,6 @@ public class myFrame extends JFrame {
 		});
 	    
 	    empty = new JButton();
-	    toggleEnable();
 	    
 	    menu.add(cheesePizza);
 	    menu.add(pepPizza);
